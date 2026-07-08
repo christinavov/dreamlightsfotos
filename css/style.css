@@ -434,7 +434,17 @@ section { position: relative; padding: 120px 0; }
 
 .about__badge span { font-size: 12px; color: var(--text-dim); }
 
-.about__desc { color: var(--text-dim); margin-bottom: 32px; max-width: 520px; }
+.about__desc-group { max-width: 520px; margin-bottom: 32px; }
+
+.about__desc {
+  color: var(--text-dim);
+  text-align: justify;
+  text-align-last: left;
+  hyphens: auto;
+  margin-bottom: 14px;
+}
+
+.about__desc:last-child { margin-bottom: 0; }
 
 .about__stats {
   display: flex;
