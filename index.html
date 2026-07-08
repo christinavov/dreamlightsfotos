@@ -295,7 +295,24 @@
       <h2 class="section-title section-title--center" data-i18n="testimonials.title">Was Kunden sagen</h2>
 
       <div class="testimonials__track" id="testimonialsTrack">
-        <!-- populated from images/testimonials/manifest.json -->
+        <!-- populated from images/testimonials/manifest.json and data/reviews.json -->
+      </div>
+
+      <div class="review-form-wrap">
+        <h3 class="review-form__title" data-i18n="reviewForm.heading">Hinterlasse eine Bewertung</h3>
+        <p class="review-form__note" data-i18n="reviewForm.note">Deine Bewertung wird geprüft und danach auf der Website veröffentlicht.</p>
+        <form class="review-form" id="reviewForm">
+          <label>
+            <span data-i18n="reviewForm.name">Name</span>
+            <input type="text" name="reviewerName" data-i18n-placeholder="reviewForm.namePh" placeholder="Dein Name" required />
+          </label>
+          <label>
+            <span data-i18n="reviewForm.text">Deine Bewertung</span>
+            <textarea name="reviewerText" rows="4" data-i18n-placeholder="reviewForm.textPh" placeholder="Erzähl uns von deiner Erfahrung..." required></textarea>
+          </label>
+          <button type="submit" class="btn btn--gradient btn--full" data-i18n="reviewForm.submit">Bewertung senden</button>
+          <p class="form-note" id="reviewFormNote"></p>
+        </form>
       </div>
     </div>
   </section>

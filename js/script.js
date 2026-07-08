@@ -145,6 +145,14 @@ const translations = {
     "cta.select": "Auswählen",
     "testimonials.eyebrow": "Referenzen",
     "testimonials.title": "Was Kunden sagen",
+    "reviewForm.heading": "Hinterlasse eine Bewertung",
+    "reviewForm.note": "Deine Bewertung wird geprüft und danach auf der Website veröffentlicht.",
+    "reviewForm.name": "Name",
+    "reviewForm.namePh": "Dein Name",
+    "reviewForm.text": "Deine Bewertung",
+    "reviewForm.textPh": "Erzähl uns von deiner Erfahrung...",
+    "reviewForm.submit": "Bewertung senden",
+    "reviewForm.success": "Danke! Deine Bewertung wurde per E-Mail verschickt und wird nach Prüfung veröffentlicht.",
     "contact.eyebrow": "Kontakt",
     "contact.title1": "Lassen Sie uns",
     "contact.title2": "etwas Schönes erschaffen",
@@ -298,6 +306,14 @@ const translations = {
     "cta.select": "Choose",
     "testimonials.eyebrow": "Testimonials",
     "testimonials.title": "What clients say",
+    "reviewForm.heading": "Leave a review",
+    "reviewForm.note": "Your review will be checked and then published on the website.",
+    "reviewForm.name": "Name",
+    "reviewForm.namePh": "Your name",
+    "reviewForm.text": "Your review",
+    "reviewForm.textPh": "Tell us about your experience...",
+    "reviewForm.submit": "Send review",
+    "reviewForm.success": "Thank you! Your review was sent by email and will be published after it's checked.",
     "contact.eyebrow": "Contact",
     "contact.title1": "Let's create",
     "contact.title2": "something beautiful",
@@ -584,6 +600,53 @@ fetch("images/testimonials/manifest.json")
     });
   })
   .catch(() => {});
+
+/* ---------- Published text reviews (added manually to data/reviews.json after moderation) ---------- */
+fetch("data/reviews.json")
+  .then((res) => (res.ok ? res.json() : null))
+  .then((reviews) => {
+    if (!reviews || !reviews.length) return;
+    const track = document.getElementById("testimonialsTrack");
+    reviews.forEach((review) => {
+      const card = document.createElement("div");
+      card.className = "review-card";
+      card.style.opacity = "0";
+      card.style.transform = "translateY(24px)";
+      card.style.transition = "opacity 0.6s ease, transform 0.6s ease";
+
+      const text = document.createElement("p");
+      text.className = "review-card__text";
+      text.textContent = review.text;
+
+      const author = document.createElement("strong");
+      author.className = "review-card__author";
+      author.textContent = review.name;
+
+      card.appendChild(text);
+      card.appendChild(author);
+      track.appendChild(card);
+      observer.observe(card);
+    });
+  })
+  .catch(() => {});
+
+/* ---------- Review submission form (sent by email, published after moderation) ---------- */
+const reviewForm = document.getElementById("reviewForm");
+const reviewFormNote = document.getElementById("reviewFormNote");
+
+if (reviewForm) {
+  reviewForm.addEventListener("submit", (e) => {
+    e.preventDefault();
+    const name = reviewForm.reviewerName.value.trim();
+    const text = reviewForm.reviewerText.value.trim();
+    const subject = encodeURIComponent("Neue Bewertung für Dream Lights Photos");
+    const body = encodeURIComponent(`Name: ${name}\n\nBewertung:\n${text}`);
+    window.location.href = `mailto:hello@dreamlightsfotos.com?subject=${subject}&body=${body}`;
+    reviewFormNote.textContent = t("reviewForm.success");
+    reviewFormNote.classList.add("success");
+    reviewForm.reset();
+  });
+}
 
 /* ---------- Filters ---------- */
 const filters = document.querySelectorAll(".filter");
