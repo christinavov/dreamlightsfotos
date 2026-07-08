@@ -111,7 +111,6 @@ const translations = {
     "service5.li2": "15–20 bearbeitete Fotos",
     "service5.li3": "Kreative Nachbearbeitung",
     "service5.price": "ab 280 €",
-    "service6.badge": "Beliebt",
     "service6.title": "Hochzeitsshooting",
     "service6.desc": "Vollständige Begleitung des Hochzeitstags von den Vorbereitungen bis zur Feier.",
     "service6.li1": "Bis zu 10 Stunden Shooting",
@@ -273,7 +272,6 @@ const translations = {
     "service5.li2": "15–20 edited photos",
     "service5.li3": "Creative post-production",
     "service5.price": "from €280",
-    "service6.badge": "Popular",
     "service6.title": "Wedding photography",
     "service6.desc": "Full-day coverage of your wedding — from getting ready to the reception.",
     "service6.li1": "Up to 10 hours of shooting",
@@ -591,6 +589,14 @@ filters.forEach((btn) => {
     filters.forEach((b) => b.classList.remove("active"));
     btn.classList.add("active");
     applyGalleryFilter(btn.dataset.filter);
+  });
+});
+
+/* ---------- Service card "Auswählen" -> pre-fill contact form ---------- */
+const formTypeSelect = document.getElementById("formType");
+document.querySelectorAll("[data-service-type]").forEach((btn) => {
+  btn.addEventListener("click", () => {
+    if (formTypeSelect) formTypeSelect.value = btn.dataset.serviceType;
   });
 });
 

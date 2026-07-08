@@ -551,23 +551,6 @@ section { position: relative; padding: 120px 0; }
 
 .service-card:hover { transform: translateY(-6px); border-color: rgba(255,255,255,0.2); }
 
-.service-card--featured {
-  background: linear-gradient(180deg, rgba(124,58,237,0.12), var(--surface) 40%);
-  border-color: rgba(124, 58, 237, 0.4);
-}
-
-.service-card__badge {
-  position: absolute;
-  top: -14px;
-  right: 24px;
-  background: var(--gradient);
-  color: #fff;
-  font-size: 12px;
-  font-weight: 700;
-  padding: 6px 14px;
-  border-radius: 999px;
-}
-
 .service-card__icon {
   width: 44px;
   height: 44px;
