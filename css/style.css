@@ -522,7 +522,7 @@ section { position: relative; padding: 120px 0; }
 /* ---------- Services ---------- */
 .services__grid {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
   gap: 24px;
   margin-top: 48px;
 }
@@ -809,7 +809,6 @@ a.contact__item:hover { color: var(--text); }
   .about__inner,
   .contact__inner { grid-template-columns: 1fr; }
   .about__media { max-width: 420px; margin: 0 auto; }
-  .services__grid,
   .testimonials__track { grid-template-columns: repeat(2, 1fr); }
   .gallery { grid-template-columns: repeat(2, 1fr); }
 }
@@ -834,7 +833,6 @@ a.contact__item:hover { color: var(--text); }
 }
 
 @media (max-width: 620px) {
-  .services__grid,
   .testimonials__track,
   .gallery { grid-template-columns: 1fr; }
   .form-row { grid-template-columns: 1fr; }
