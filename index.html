@@ -414,7 +414,17 @@
           <span data-i18n="form.message">Nachricht</span>
           <textarea name="message" rows="4" data-i18n-placeholder="form.messagePh" placeholder="Erzählen Sie kurz von Ihrem Shooting..."></textarea>
         </label>
-        <p class="form-hint" data-i18n="form.confirmNote">Die Buchung ist erst verbindlich, wenn ich sie persönlich per Telefon oder E-Mail bestätigt habe.</p>
+        <p class="form-hint">
+          <svg class="form-hint__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <circle cx="12" cy="12" r="10"></circle>
+            <line x1="12" y1="16" x2="12" y2="12"></line>
+            <line x1="12" y1="8" x2="12.01" y2="8"></line>
+          </svg>
+          <span>
+            <strong data-i18n="form.confirmLabel">Wichtig:</strong>
+            <span data-i18n="form.confirmNote">Die Buchung ist erst verbindlich, wenn ich sie persönlich per Telefon oder E-Mail bestätigt habe.</span>
+          </span>
+        </p>
         <button type="submit" class="btn btn--gradient btn--full" data-i18n="form.submit">Anfrage senden</button>
         <p class="form-note" id="formNote"></p>
       </form>

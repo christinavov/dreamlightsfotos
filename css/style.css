@@ -756,13 +756,32 @@ a.contact__item:hover { color: var(--text); }
 .contact__form textarea:focus { border-color: var(--grad-1); }
 
 .form-hint {
-  font-size: 13px;
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  font-size: 13.5px;
   line-height: 1.5;
-  color: var(--text-dim);
-  background: var(--bg-alt);
-  border: 1px solid var(--border);
+  color: var(--text);
+  background: var(--gradient-soft);
+  border: 1px solid rgba(124, 58, 237, 0.45);
   border-radius: 10px;
-  padding: 12px 14px;
+  padding: 14px 16px;
+}
+
+.form-hint__icon {
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+  margin-top: 1px;
+  color: var(--grad-2);
+}
+
+.form-hint strong {
+  background: var(--gradient);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  font-weight: 700;
 }
 
 .form-note { font-size: 13.5px; color: var(--text-dim); min-height: 18px; }
