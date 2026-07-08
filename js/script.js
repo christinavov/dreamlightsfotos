@@ -450,6 +450,20 @@ document.addEventListener("keydown", (e) => {
   }
 });
 
+/* ---------- Scroll reveal observer (used by gallery + static sections) ---------- */
+const observer = new IntersectionObserver(
+  (entries) => {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting) {
+        entry.target.style.opacity = "1";
+        entry.target.style.transform = "translateY(0)";
+        observer.unobserve(entry.target);
+      }
+    });
+  },
+  { threshold: 0.15 }
+);
+
 /* ---------- Gallery data ---------- */
 const gradients = [
   "linear-gradient(135deg,#7c3aed,#3b82f6)",
@@ -463,7 +477,9 @@ const gradients = [
   "linear-gradient(135deg,#64748b,#0ea5e9)",
 ];
 
-const photos = [
+// Fallback placeholders shown for a category until real photos are uploaded
+// to images/portfolio/<category>/ (see manifest.json).
+const fallbackPhotos = [
   { category: "portrait", titleKey: "portrait1" },
   { category: "love", titleKey: "love1" },
   { category: "family", titleKey: "family1" },
@@ -477,20 +493,90 @@ const photos = [
   { category: "portrait", titleKey: "portrait2" },
 ];
 
-const gallery = document.getElementById("gallery");
+const galleryCategories = [
+  "portrait", "love", "family", "fashion", "art",
+  "wedding", "event", "landscape", "maternity", "business",
+];
 
-photos.forEach((photo, i) => {
+const gallery = document.getElementById("gallery");
+let activeGalleryFilter = "all";
+
+function makeGalleryItem(category, background, caption, titleKey) {
   const item = document.createElement("div");
   item.className = "gallery-item";
-  item.dataset.category = photo.category;
-  item.dataset.titleKey = photo.titleKey;
+  item.dataset.category = category;
+  if (titleKey) item.dataset.titleKey = titleKey;
   item.innerHTML = `
-    <div class="gallery-item__ph" style="background:${gradients[i % gradients.length]}"></div>
-    <div class="gallery-item__overlay"><span></span></div>
+    <div class="gallery-item__ph" style="${background}"></div>
+    <div class="gallery-item__overlay"><span>${caption || ""}</span></div>
   `;
-  item.addEventListener("click", () => openLightbox(gradients[i % gradients.length]));
-  gallery.appendChild(item);
-});
+  return item;
+}
+
+function renderGallery(manifest) {
+  gallery.innerHTML = "";
+  let gradientIndex = 0;
+
+  galleryCategories.forEach((category) => {
+    const uploaded = (manifest && manifest[category]) || [];
+
+    if (uploaded.length) {
+      uploaded.forEach((src) => {
+        const bg = `background-image:url('${src}')`;
+        const item = makeGalleryItem(category, bg, t(`filter.${category}`));
+        item.addEventListener("click", () => openLightbox(`url('${src}') center/cover no-repeat`));
+        gallery.appendChild(item);
+      });
+    } else {
+      fallbackPhotos
+        .filter((p) => p.category === category)
+        .forEach((photo) => {
+          const gradient = gradients[gradientIndex % gradients.length];
+          gradientIndex++;
+          const item = makeGalleryItem(category, `background:${gradient}`, "", photo.titleKey);
+          item.addEventListener("click", () => openLightbox(gradient));
+          gallery.appendChild(item);
+        });
+    }
+  });
+
+  applyGalleryCaptions();
+  applyGalleryFilter(activeGalleryFilter);
+
+  gallery.querySelectorAll(".gallery-item").forEach((el) => {
+    el.style.opacity = "0";
+    el.style.transform = "translateY(24px)";
+    el.style.transition = "opacity 0.6s ease, transform 0.6s ease";
+    observer.observe(el);
+  });
+}
+
+function applyGalleryFilter(filter) {
+  activeGalleryFilter = filter;
+  gallery.querySelectorAll(".gallery-item").forEach((item) => {
+    const match = filter === "all" || item.dataset.category === filter;
+    item.classList.toggle("hidden", !match);
+  });
+}
+
+function applyGalleryCaptions() {
+  gallery.querySelectorAll(".gallery-item").forEach((item) => {
+    const span = item.querySelector(".gallery-item__overlay span");
+    if (!span) return;
+    span.textContent = item.dataset.titleKey
+      ? t(`gallery.${item.dataset.titleKey}`)
+      : t(`filter.${item.dataset.category}`);
+  });
+}
+
+renderGallery(null);
+
+fetch("images/portfolio/manifest.json")
+  .then((res) => (res.ok ? res.json() : null))
+  .then((manifest) => {
+    if (manifest) renderGallery(manifest);
+  })
+  .catch(() => {});
 
 /* ---------- Filters ---------- */
 const filters = document.querySelectorAll(".filter");
@@ -498,12 +584,7 @@ filters.forEach((btn) => {
   btn.addEventListener("click", () => {
     filters.forEach((b) => b.classList.remove("active"));
     btn.classList.add("active");
-    const filter = btn.dataset.filter;
-
-    gallery.querySelectorAll(".gallery-item").forEach((item) => {
-      const match = filter === "all" || item.dataset.category === filter;
-      item.classList.toggle("hidden", !match);
-    });
+    applyGalleryFilter(btn.dataset.filter);
   });
 });
 
@@ -558,7 +639,7 @@ form.addEventListener("submit", (e) => {
 
 /* ---------- Reveal on scroll ---------- */
 const revealTargets = document.querySelectorAll(
-  ".about__inner, .gallery-item, .service-card, .testimonial-card, .contact__inner"
+  ".about__inner, .service-card, .testimonial-card, .contact__inner"
 );
 
 revealTargets.forEach((el) => {
@@ -566,19 +647,6 @@ revealTargets.forEach((el) => {
   el.style.transform = "translateY(24px)";
   el.style.transition = "opacity 0.6s ease, transform 0.6s ease";
 });
-
-const observer = new IntersectionObserver(
-  (entries) => {
-    entries.forEach((entry) => {
-      if (entry.isIntersecting) {
-        entry.target.style.opacity = "1";
-        entry.target.style.transform = "translateY(0)";
-        observer.unobserve(entry.target);
-      }
-    });
-  },
-  { threshold: 0.15 }
-);
 
 revealTargets.forEach((el) => observer.observe(el));
 
