@@ -1,5 +1,29 @@
 document.getElementById("year").textContent = new Date().getFullYear();
 
+/* ---------- About photo rotation ---------- */
+const aboutPhotos = ["images/about-me/IMG_1588.JPG", "images/about-me/IMG_1589.JPG"];
+const aboutPhotoEl = document.getElementById("aboutPhoto");
+let aboutPhotoIndex = 0;
+
+function showAboutPhoto(index) {
+  aboutPhotoEl.classList.remove("loaded");
+  window.setTimeout(() => {
+    aboutPhotoEl.style.display = "";
+    aboutPhotoEl.src = aboutPhotos[index];
+    aboutPhotoEl.onload = () => aboutPhotoEl.classList.add("loaded");
+  }, 400);
+}
+
+if (aboutPhotoEl && aboutPhotos.length) {
+  showAboutPhoto(aboutPhotoIndex);
+  if (aboutPhotos.length > 1) {
+    window.setInterval(() => {
+      aboutPhotoIndex = (aboutPhotoIndex + 1) % aboutPhotos.length;
+      showAboutPhoto(aboutPhotoIndex);
+    }, 120000);
+  }
+}
+
 /* ---------- Translations ---------- */
 const translations = {
   de: {
