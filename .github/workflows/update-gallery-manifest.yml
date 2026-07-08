@@ -4,6 +4,7 @@ on:
   push:
     paths:
       - "images/portfolio/**"
+      - "images/testimonials/**"
   workflow_dispatch:
 
 permissions:
@@ -18,7 +19,7 @@ jobs:
         with:
           ref: ${{ github.ref_name }}
 
-      - name: Generate manifest.json
+      - name: Generate portfolio manifest.json
         run: |
           node <<'EOF'
           const fs = require("fs");
@@ -51,14 +52,35 @@ jobs:
           );
           EOF
 
-      - name: Commit manifest if changed
+      - name: Generate testimonials manifest.json
+        run: |
+          node <<'EOF'
+          const fs = require("fs");
+          const path = require("path");
+
+          const base = "images/testimonials";
+          const exts = new Set([".jpg", ".jpeg", ".png", ".webp"]);
+
+          const files = fs
+            .readdirSync(base)
+            .filter((f) => exts.has(path.extname(f).toLowerCase()))
+            .sort()
+            .map((f) => `${base}/${f}`);
+
+          fs.writeFileSync(
+            path.join(base, "manifest.json"),
+            JSON.stringify(files, null, 2) + "\n"
+          );
+          EOF
+
+      - name: Commit manifests if changed
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add images/portfolio/manifest.json
+          git add images/portfolio/manifest.json images/testimonials/manifest.json
           if git diff --cached --quiet; then
-            echo "Manifest unchanged."
+            echo "Manifests unchanged."
           else
-            git commit -m "chore: update gallery manifest"
+            git commit -m "chore: update gallery manifests"
             git push
           fi

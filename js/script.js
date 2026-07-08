@@ -584,6 +584,25 @@ fetch("images/portfolio/manifest.json")
   })
   .catch(() => {});
 
+/* ---------- Testimonial screenshots (uploaded to images/testimonials/) ---------- */
+fetch("images/testimonials/manifest.json")
+  .then((res) => (res.ok ? res.json() : null))
+  .then((shots) => {
+    if (!shots || !shots.length) return;
+    const track = document.getElementById("testimonialsTrack");
+    shots.forEach((src) => {
+      const item = document.createElement("div");
+      item.className = "testimonial-shot";
+      item.innerHTML = `<img src="${src}" alt="" loading="lazy" />`;
+      item.style.opacity = "0";
+      item.style.transform = "translateY(24px)";
+      item.style.transition = "opacity 0.6s ease, transform 0.6s ease";
+      track.appendChild(item);
+      observer.observe(item);
+    });
+  })
+  .catch(() => {});
+
 /* ---------- Filters ---------- */
 const filters = document.querySelectorAll(".filter");
 filters.forEach((btn) => {
