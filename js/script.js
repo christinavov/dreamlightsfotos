@@ -643,7 +643,7 @@ if (reviewForm) {
     const text = reviewForm.reviewerText.value.trim();
     const subject = encodeURIComponent("Neue Bewertung für Dream Lights Photos");
     const body = encodeURIComponent(`Name: ${name}\n\nBewertung:\n${text}`);
-    window.location.href = `mailto:hello@dreamlightsfotos.com?subject=${subject}&body=${body}`;
+    window.location.href = `mailto:dreamlightfotos@hotmail.com?subject=${subject}&body=${body}`;
     reviewFormNote.textContent = t("reviewForm.success");
     reviewFormNote.classList.add("success");
     reviewForm.reset();
