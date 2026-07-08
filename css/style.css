@@ -738,11 +738,22 @@ a.contact__item:hover { color: var(--text); }
   outline: none;
   transition: border-color 0.2s ease;
   resize: vertical;
+  color-scheme: dark;
 }
 
 .contact__form input:focus,
 .contact__form select:focus,
 .contact__form textarea:focus { border-color: var(--grad-1); }
+
+.form-hint {
+  font-size: 13px;
+  line-height: 1.5;
+  color: var(--text-dim);
+  background: var(--bg-alt);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 12px 14px;
+}
 
 .form-note { font-size: 13.5px; color: var(--text-dim); min-height: 18px; }
 .form-note.success { color: #34d399; }

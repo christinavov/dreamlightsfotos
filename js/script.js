@@ -161,6 +161,9 @@ const translations = {
     "form.namePh": "Wie heißen Sie?",
     "form.phone": "Telefon",
     "form.phonePh": "+49 ___ ________",
+    "form.email": "E-Mail (optional)",
+    "form.emailPh": "deine@email.ch",
+    "form.date": "Wunschtermin",
     "form.type": "Art des Shootings",
     "form.type1": "Porträtshooting",
     "form.type2": "Hochzeitsshooting",
@@ -175,6 +178,7 @@ const translations = {
     "form.type11": "Business",
     "form.message": "Nachricht",
     "form.messagePh": "Erzählen Sie kurz von Ihrem Shooting...",
+    "form.confirmNote": "Die Buchung ist erst verbindlich, wenn ich sie persönlich per Telefon oder E-Mail bestätigt habe.",
     "form.submit": "Anfrage senden",
     "form.success": "Danke! Ihre Anfrage wurde gesendet, ich melde mich in Kürze.",
     "footer.rights": "Alle Rechte vorbehalten.",
@@ -316,6 +320,9 @@ const translations = {
     "form.namePh": "What's your name?",
     "form.phone": "Phone",
     "form.phonePh": "+1 ___ ___-____",
+    "form.email": "Email (optional)",
+    "form.emailPh": "your@email.com",
+    "form.date": "Preferred date",
     "form.type": "Type of shoot",
     "form.type1": "Portrait session",
     "form.type2": "Wedding shoot",
@@ -330,6 +337,7 @@ const translations = {
     "form.type11": "Business",
     "form.message": "Message",
     "form.messagePh": "Tell me a bit about your shoot...",
+    "form.confirmNote": "Your booking becomes binding only once I've confirmed it with you personally by phone or email.",
     "form.submit": "Send request",
     "form.success": "Thank you! Your request has been sent, I'll be in touch shortly.",
     "footer.rights": "All rights reserved.",
@@ -522,6 +530,20 @@ lightbox.addEventListener("click", (e) => {
 document.addEventListener("keydown", (e) => {
   if (e.key === "Escape") closeLightbox();
 });
+
+/* ---------- Booking date (earliest bookable: 5 days from today) ---------- */
+const formDate = document.getElementById("formDate");
+if (formDate) {
+  const earliest = new Date();
+  earliest.setDate(earliest.getDate() + 5);
+  const isoDate = [
+    earliest.getFullYear(),
+    String(earliest.getMonth() + 1).padStart(2, "0"),
+    String(earliest.getDate()).padStart(2, "0"),
+  ].join("-");
+  formDate.setAttribute("min", isoDate);
+  formDate.setAttribute("value", isoDate);
+}
 
 /* ---------- Contact form (demo, no backend) ---------- */
 const form = document.getElementById("contactForm");
