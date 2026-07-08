@@ -205,8 +205,8 @@ const translations = {
 };
 
 const languageMeta = {
-  de: { flag: "🇩🇪", name: "Deutsch" },
-  en: { flag: "🇬🇧", name: "English" },
+  de: { flagClass: "flag-de", name: "Deutsch" },
+  en: { flagClass: "flag-en", name: "English" },
 };
 
 const STORAGE_KEY = "dreamlights-lang";
@@ -248,7 +248,7 @@ function applyLanguage(lang) {
   });
 
   const meta = languageMeta[lang];
-  langBtnFlag.textContent = meta.flag;
+  langBtnFlag.className = `lang-switch__flag ${meta.flagClass}`;
   langBtnName.textContent = meta.name;
   document.querySelectorAll(".lang-switch__option").forEach((opt) => {
     opt.classList.toggle("active", opt.dataset.lang === lang);

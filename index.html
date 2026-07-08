@@ -26,7 +26,7 @@
 
       <div class="lang-switch" id="langSwitch">
         <button class="lang-switch__btn" id="langBtn" type="button" aria-haspopup="true" aria-expanded="false" data-i18n-aria="lang.select">
-          <span class="lang-switch__flag" id="langBtnFlag">🇩🇪</span>
+          <span class="lang-switch__flag flag-de" id="langBtnFlag" aria-hidden="true"></span>
           <span class="lang-switch__name" id="langBtnName">Deutsch</span>
           <svg class="lang-switch__chevron" width="10" height="6" viewBox="0 0 10 6" fill="none" aria-hidden="true">
             <path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
@@ -34,10 +34,10 @@
         </button>
         <div class="lang-switch__menu" id="langMenu" role="menu">
           <button class="lang-switch__option" type="button" data-lang="de" role="menuitem">
-            <span class="lang-switch__flag">🇩🇪</span> Deutsch
+            <span class="lang-switch__flag flag-de" aria-hidden="true"></span> Deutsch
           </button>
           <button class="lang-switch__option" type="button" data-lang="en" role="menuitem">
-            <span class="lang-switch__flag">🇬🇧</span> English
+            <span class="lang-switch__flag flag-en" aria-hidden="true"></span> English
           </button>
         </div>
       </div>
