@@ -186,6 +186,7 @@ const translations = {
     "footer.rights": "Alle Rechte vorbehalten.",
     "footer.top": "Nach oben ↑",
     "lightbox.close": "Schließen",
+    "whatsapp.fab": "Per WhatsApp schreiben",
   },
   en: {
     "meta.title": "Dream Lights Photos — Photographer",
@@ -347,6 +348,7 @@ const translations = {
     "footer.rights": "All rights reserved.",
     "footer.top": "Back to top ↑",
     "lightbox.close": "Close",
+    "whatsapp.fab": "Message us on WhatsApp",
   },
 };
 
