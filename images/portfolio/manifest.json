@@ -1,12 +1,12 @@
 {
-  "portrait": [],
-  "love": [],
+  "art": [],
+  "business": [],
+  "event": [],
   "family": [],
   "fashion": [],
-  "art": [],
-  "wedding": [],
-  "event": [],
   "landscape": [],
+  "love": [],
   "maternity": [],
-  "business": []
+  "portrait": [],
+  "wedding": []
 }
