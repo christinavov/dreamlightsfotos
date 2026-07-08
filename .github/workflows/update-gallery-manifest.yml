@@ -1,0 +1,86 @@
+name: Update gallery manifest
+
+on:
+  push:
+    paths:
+      - "images/portfolio/**"
+      - "images/testimonials/**"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  update-manifest:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref_name }}
+
+      - name: Generate portfolio manifest.json
+        run: |
+          node <<'EOF'
+          const fs = require("fs");
+          const path = require("path");
+
+          const base = "images/portfolio";
+          const exts = new Set([".jpg", ".jpeg", ".png", ".webp"]);
+          const manifest = {};
+
+          for (const entry of fs.readdirSync(base, { withFileTypes: true })) {
+            if (!entry.isDirectory()) continue;
+            const dir = path.join(base, entry.name);
+            const files = fs
+              .readdirSync(dir)
+              .filter((f) => exts.has(path.extname(f).toLowerCase()))
+              .sort();
+            manifest[entry.name] = files.map((f) => `${base}/${entry.name}/${f}`);
+          }
+
+          const sorted = Object.keys(manifest)
+            .sort()
+            .reduce((acc, key) => {
+              acc[key] = manifest[key];
+              return acc;
+            }, {});
+
+          fs.writeFileSync(
+            path.join(base, "manifest.json"),
+            JSON.stringify(sorted, null, 2) + "\n"
+          );
+          EOF
+
+      - name: Generate testimonials manifest.json
+        run: |
+          node <<'EOF'
+          const fs = require("fs");
+          const path = require("path");
+
+          const base = "images/testimonials";
+          const exts = new Set([".jpg", ".jpeg", ".png", ".webp"]);
+
+          const files = fs
+            .readdirSync(base)
+            .filter((f) => exts.has(path.extname(f).toLowerCase()))
+            .sort()
+            .map((f) => `${base}/${f}`);
+
+          fs.writeFileSync(
+            path.join(base, "manifest.json"),
+            JSON.stringify(files, null, 2) + "\n"
+          );
+          EOF
+
+      - name: Commit manifests if changed
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add images/portfolio/manifest.json images/testimonials/manifest.json
+          if git diff --cached --quiet; then
+            echo "Manifests unchanged."
+          else
+            git commit -m "chore: update gallery manifests"
+            git push
+          fi
