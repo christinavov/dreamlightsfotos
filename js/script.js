@@ -182,7 +182,7 @@ const translations = {
     "form.confirmLabel": "Wichtig:",
     "form.confirmNote": "Die Buchung ist erst verbindlich, wenn ich sie persönlich per Telefon oder E-Mail bestätigt habe.",
     "form.submit": "Anfrage senden",
-    "form.success": "Danke! Ihre Anfrage wurde gesendet, ich melde mich in Kürze.",
+    "form.success": "Danke! WhatsApp öffnet sich mit deiner Anfrage — bitte dort auf Senden tippen, damit ich sie erhalte.",
     "footer.rights": "Alle Rechte vorbehalten.",
     "footer.top": "Nach oben ↑",
     "lightbox.close": "Schließen",
@@ -343,7 +343,7 @@ const translations = {
     "form.confirmLabel": "Important:",
     "form.confirmNote": "Your booking becomes binding only once I've confirmed it with you personally by phone or email.",
     "form.submit": "Send request",
-    "form.success": "Thank you! Your request has been sent, I'll be in touch shortly.",
+    "form.success": "Thanks! WhatsApp is opening with your request — please tap send there so I receive it.",
     "footer.rights": "All rights reserved.",
     "footer.top": "Back to top ↑",
     "lightbox.close": "Close",
@@ -704,12 +704,34 @@ if (formDate) {
   formDate.setAttribute("value", isoDate);
 }
 
-/* ---------- Contact form (demo, no backend) ---------- */
+/* ---------- Contact form: sends the booking request to WhatsApp ---------- */
 const form = document.getElementById("contactForm");
 const formNote = document.getElementById("formNote");
+const WHATSAPP_NUMBER = "41767402602";
 
 form.addEventListener("submit", (e) => {
   e.preventDefault();
+
+  const name = form.name.value.trim();
+  const phone = form.phone.value.trim();
+  const email = form.email.value.trim();
+  const date = form.date.value;
+  const typeLabel = form.type.options[form.type.selectedIndex].textContent;
+  const message = form.message.value.trim();
+
+  const lines = [
+    "Neue Anfrage von der Website:",
+    `Name: ${name}`,
+    `Telefon: ${phone}`,
+    email ? `E-Mail: ${email}` : null,
+    date ? `Wunschtermin: ${date}` : null,
+    `Art des Shootings: ${typeLabel}`,
+    message ? `Nachricht: ${message}` : null,
+  ].filter(Boolean);
+
+  const waUrl = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(lines.join("\n"))}`;
+  window.open(waUrl, "_blank", "noopener");
+
   formNote.textContent = t("form.success");
   formNote.classList.add("success");
   form.reset();
