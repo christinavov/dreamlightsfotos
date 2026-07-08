@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="de">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>DreamLights Fotos — Фотограф</title>
-  <meta name="description" content="DreamLights Fotos — профессиональная фотосъёмка: портреты, свадьбы, мероприятия, love story." />
+  <title data-i18n="meta.title">DreamLights Fotos — Fotograf</title>
+  <meta name="description" content="DreamLights Fotos — professionelle Fotografie: Porträts, Hochzeiten, Events, Love Story." data-i18n-attr="content" data-i18n="meta.description" />
   <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📷</text></svg>" />
   <link rel="stylesheet" href="css/style.css" />
 </head>
@@ -16,17 +16,35 @@
       <a href="#home" class="logo">Dream<span>Lights</span> Fotos</a>
 
       <nav class="nav" id="nav">
-        <a href="#home" class="nav__link">Главная</a>
-        <a href="#about" class="nav__link">Обо мне</a>
-        <a href="#portfolio" class="nav__link">Портфолио</a>
-        <a href="#services" class="nav__link">Услуги</a>
-        <a href="#testimonials" class="nav__link">Отзывы</a>
-        <a href="#contact" class="nav__link">Контакты</a>
+        <a href="#home" class="nav__link" data-i18n="nav.home">Startseite</a>
+        <a href="#about" class="nav__link" data-i18n="nav.about">Über mich</a>
+        <a href="#portfolio" class="nav__link" data-i18n="nav.portfolio">Portfolio</a>
+        <a href="#services" class="nav__link" data-i18n="nav.services">Leistungen</a>
+        <a href="#testimonials" class="nav__link" data-i18n="nav.testimonials">Referenzen</a>
+        <a href="#contact" class="nav__link" data-i18n="nav.contact">Kontakt</a>
       </nav>
 
-      <a href="#contact" class="btn btn--small header__cta">Записаться</a>
+      <div class="lang-switch" id="langSwitch">
+        <button class="lang-switch__btn" id="langBtn" type="button" aria-haspopup="true" aria-expanded="false" data-i18n-aria="lang.select">
+          <span class="lang-switch__flag" id="langBtnFlag">🇩🇪</span>
+          <span class="lang-switch__name" id="langBtnName">Deutsch</span>
+          <svg class="lang-switch__chevron" width="10" height="6" viewBox="0 0 10 6" fill="none" aria-hidden="true">
+            <path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+          </svg>
+        </button>
+        <div class="lang-switch__menu" id="langMenu" role="menu">
+          <button class="lang-switch__option" type="button" data-lang="de" role="menuitem">
+            <span class="lang-switch__flag">🇩🇪</span> Deutsch
+          </button>
+          <button class="lang-switch__option" type="button" data-lang="en" role="menuitem">
+            <span class="lang-switch__flag">🇬🇧</span> English
+          </button>
+        </div>
+      </div>
 
-      <button class="burger" id="burger" aria-label="Открыть меню">
+      <a href="#contact" class="btn btn--small header__cta" data-i18n="nav.cta">Termin buchen</a>
+
+      <button class="burger" id="burger" type="button" data-i18n-aria="burger.open">
         <span></span><span></span><span></span>
       </button>
     </div>
@@ -38,20 +56,21 @@
     <div class="hero__glow hero__glow--1"></div>
     <div class="hero__glow hero__glow--2"></div>
     <div class="container hero__content">
-      <p class="eyebrow">Фотограф &middot; Портреты &middot; Свадьбы &middot; События</p>
+      <p class="eyebrow" data-i18n="hero.eyebrow">Fotograf · Porträts · Hochzeiten · Events</p>
       <h1 class="hero__title">
-        Свет и эмоции<br />в каждом <span class="gradient-text">кадре</span>
+        <span data-i18n="hero.title1">Licht und Emotionen</span><br />
+        <span data-i18n="hero.title2">in jedem</span> <span class="gradient-text" data-i18n="hero.titleGradient">Bild</span>
       </h1>
-      <p class="hero__subtitle">
-        Снимаю истории, которые хочется пересматривать. DreamLights Fotos — это авторский взгляд,
-        мягкий свет и живые эмоции.
+      <p class="hero__subtitle" data-i18n="hero.subtitle">
+        Ich fotografiere Geschichten, die man immer wieder ansehen möchte. DreamLights Fotos steht für einen
+        persönlichen Blick, weiches Licht und echte Emotionen.
       </p>
       <div class="hero__actions">
-        <a href="#portfolio" class="btn btn--gradient">Смотреть портфолио</a>
-        <a href="#contact" class="btn btn--outline">Связаться</a>
+        <a href="#portfolio" class="btn btn--gradient" data-i18n="hero.ctaPrimary">Portfolio ansehen</a>
+        <a href="#contact" class="btn btn--outline" data-i18n="hero.ctaSecondary">Kontakt aufnehmen</a>
       </div>
     </div>
-    <a href="#about" class="scroll-down" aria-label="Прокрутить вниз">
+    <a href="#about" class="scroll-down" data-i18n-aria="scroll.down">
       <span></span>
     </a>
   </section>
@@ -65,32 +84,32 @@
         </div>
         <div class="about__badge">
           <strong>7+</strong>
-          <span>лет опыта</span>
+          <span data-i18n="about.badgeLabel">Jahre Erfahrung</span>
         </div>
       </div>
       <div class="about__text">
-        <p class="eyebrow">Обо мне</p>
-        <h2 class="section-title">Привет, я автор DreamLights Fotos</h2>
-        <p class="about__desc">
-          Более семи лет я помогаю людям сохранять важные моменты жизни — свадьбы, помолвки,
-          семейные портреты и love story. Мой стиль — это естественный свет, тёплая атмосфера
-          и внимание к деталям, которые делают каждый кадр живым.
+        <p class="eyebrow" data-i18n="about.eyebrow">Über mich</p>
+        <h2 class="section-title" data-i18n="about.title">Hallo, ich bin die Fotografin hinter DreamLights Fotos</h2>
+        <p class="about__desc" data-i18n="about.desc">
+          Seit mehr als sieben Jahren helfe ich Menschen, wichtige Momente festzuhalten — Hochzeiten, Verlobungen,
+          Familienporträts und Love Storys. Mein Stil: natürliches Licht, eine warme Atmosphäre und ein Blick fürs
+          Detail, der jedes Bild lebendig macht.
         </p>
         <div class="about__stats">
           <div class="stat">
             <span class="stat__num gradient-text">300+</span>
-            <span class="stat__label">Съёмок</span>
+            <span class="stat__label" data-i18n="about.stat1Label">Shootings</span>
           </div>
           <div class="stat">
             <span class="stat__num gradient-text">150+</span>
-            <span class="stat__label">Свадеб</span>
+            <span class="stat__label" data-i18n="about.stat2Label">Hochzeiten</span>
           </div>
           <div class="stat">
             <span class="stat__num gradient-text">98%</span>
-            <span class="stat__label">Довольных клиентов</span>
+            <span class="stat__label" data-i18n="about.stat3Label">Zufriedene Kunden</span>
           </div>
         </div>
-        <a href="#contact" class="btn btn--gradient">Обсудить съёмку</a>
+        <a href="#contact" class="btn btn--gradient" data-i18n="about.cta">Shooting besprechen</a>
       </div>
     </div>
   </section>
@@ -98,15 +117,15 @@
   <!-- Portfolio -->
   <section class="portfolio" id="portfolio">
     <div class="container">
-      <p class="eyebrow eyebrow--center">Портфолио</p>
-      <h2 class="section-title section-title--center">Избранные работы</h2>
+      <p class="eyebrow eyebrow--center" data-i18n="portfolio.eyebrow">Portfolio</p>
+      <h2 class="section-title section-title--center" data-i18n="portfolio.title">Ausgewählte Arbeiten</h2>
 
       <div class="filters" id="filters">
-        <button class="filter active" data-filter="all">Все</button>
-        <button class="filter" data-filter="portrait">Портреты</button>
-        <button class="filter" data-filter="wedding">Свадьбы</button>
-        <button class="filter" data-filter="event">События</button>
-        <button class="filter" data-filter="love">Love Story</button>
+        <button class="filter active" data-filter="all" data-i18n="filter.all">Alle</button>
+        <button class="filter" data-filter="portrait" data-i18n="filter.portrait">Porträts</button>
+        <button class="filter" data-filter="wedding" data-i18n="filter.wedding">Hochzeiten</button>
+        <button class="filter" data-filter="event" data-i18n="filter.event">Events</button>
+        <button class="filter" data-filter="love" data-i18n="filter.love">Love Story</button>
       </div>
 
       <div class="gallery" id="gallery">
@@ -118,48 +137,48 @@
   <!-- Services -->
   <section class="services" id="services">
     <div class="container">
-      <p class="eyebrow eyebrow--center">Услуги</p>
-      <h2 class="section-title section-title--center">Пакеты съёмки</h2>
+      <p class="eyebrow eyebrow--center" data-i18n="services.eyebrow">Leistungen</p>
+      <h2 class="section-title section-title--center" data-i18n="services.title">Shooting-Pakete</h2>
 
       <div class="services__grid">
         <div class="service-card">
           <div class="service-card__icon">✦</div>
-          <h3>Портретная съёмка</h3>
-          <p>Индивидуальная фотосессия в студии или на локации. Помощь с образом и позами.</p>
+          <h3 data-i18n="service1.title">Porträtshooting</h3>
+          <p data-i18n="service1.desc">Individuelles Fotoshooting im Studio oder vor Ort. Unterstützung bei Styling und Posen.</p>
           <ul>
-            <li>1–2 часа съёмки</li>
-            <li>20 обработанных фото</li>
-            <li>Онлайн-галерея</li>
+            <li data-i18n="service1.li1">1–2 Stunden Shooting</li>
+            <li data-i18n="service1.li2">20 bearbeitete Fotos</li>
+            <li data-i18n="service1.li3">Online-Galerie</li>
           </ul>
-          <span class="service-card__price">от 6 000 ₽</span>
-          <a href="#contact" class="btn btn--outline btn--small">Выбрать</a>
+          <span class="service-card__price" data-i18n="service1.price">ab 150 €</span>
+          <a href="#contact" class="btn btn--outline btn--small" data-i18n="cta.select">Auswählen</a>
         </div>
 
         <div class="service-card service-card--featured">
-          <div class="service-card__badge">Популярно</div>
+          <div class="service-card__badge" data-i18n="service2.badge">Beliebt</div>
           <div class="service-card__icon">✦</div>
-          <h3>Свадебная съёмка</h3>
-          <p>Полное сопровождение свадебного дня от сборов до банкета.</p>
+          <h3 data-i18n="service2.title">Hochzeitsshooting</h3>
+          <p data-i18n="service2.desc">Vollständige Begleitung des Hochzeitstags von den Vorbereitungen bis zur Feier.</p>
           <ul>
-            <li>До 10 часов съёмки</li>
-            <li>300+ обработанных фото</li>
-            <li>Видео highlight (опция)</li>
+            <li data-i18n="service2.li1">Bis zu 10 Stunden Shooting</li>
+            <li data-i18n="service2.li2">300+ bearbeitete Fotos</li>
+            <li data-i18n="service2.li3">Video-Highlight (optional)</li>
           </ul>
-          <span class="service-card__price">от 35 000 ₽</span>
-          <a href="#contact" class="btn btn--gradient btn--small">Выбрать</a>
+          <span class="service-card__price" data-i18n="service2.price">ab 890 €</span>
+          <a href="#contact" class="btn btn--gradient btn--small" data-i18n="cta.select">Auswählen</a>
         </div>
 
         <div class="service-card">
           <div class="service-card__icon">✦</div>
-          <h3>События</h3>
-          <p>Корпоративы, дни рождения, выпускные и другие мероприятия.</p>
+          <h3 data-i18n="service3.title">Events</h3>
+          <p data-i18n="service3.desc">Firmenfeiern, Geburtstage, Abschlussfeiern und andere Veranstaltungen.</p>
           <ul>
-            <li>От 3 часов съёмки</li>
-            <li>100+ обработанных фото</li>
-            <li>Быстрая отдача материала</li>
+            <li data-i18n="service3.li1">Ab 3 Stunden Shooting</li>
+            <li data-i18n="service3.li2">100+ bearbeitete Fotos</li>
+            <li data-i18n="service3.li3">Schnelle Lieferung</li>
           </ul>
-          <span class="service-card__price">от 12 000 ₽</span>
-          <a href="#contact" class="btn btn--outline btn--small">Выбрать</a>
+          <span class="service-card__price" data-i18n="service3.price">ab 300 €</span>
+          <a href="#contact" class="btn btn--outline btn--small" data-i18n="cta.select">Auswählen</a>
         </div>
       </div>
     </div>
@@ -168,37 +187,37 @@
   <!-- Testimonials -->
   <section class="testimonials" id="testimonials">
     <div class="container">
-      <p class="eyebrow eyebrow--center">Отзывы</p>
-      <h2 class="section-title section-title--center">Что говорят клиенты</h2>
+      <p class="eyebrow eyebrow--center" data-i18n="testimonials.eyebrow">Referenzen</p>
+      <h2 class="section-title section-title--center" data-i18n="testimonials.title">Was Kunden sagen</h2>
 
       <div class="testimonials__track" id="testimonialsTrack">
         <div class="testimonial-card">
-          <p class="testimonial-card__text">«Съёмка прошла легко и весело, а фото превзошли все ожидания. Спасибо за тёплую атмосферу!»</p>
+          <p class="testimonial-card__text" data-i18n="t1.text">„Das Shooting war entspannt und hat Spaß gemacht, die Fotos haben alle Erwartungen übertroffen. Danke für die warme Atmosphäre!“</p>
           <div class="testimonial-card__author">
-            <div class="avatar">А</div>
+            <div class="avatar">A</div>
             <div>
-              <strong>Анна и Дмитрий</strong>
-              <span>Свадебная съёмка</span>
+              <strong data-i18n="t1.author">Anna &amp; Dmitri</strong>
+              <span data-i18n="t1.role">Hochzeitsshooting</span>
             </div>
           </div>
         </div>
         <div class="testimonial-card">
-          <p class="testimonial-card__text">«Очень внимательный подход к деталям, фотограф помог раскрепоститься перед камерой. Результат — огонь!»</p>
+          <p class="testimonial-card__text" data-i18n="t2.text">„Sehr aufmerksamer Umgang mit Details, die Fotografin hat mir geholfen, vor der Kamera locker zu werden. Das Ergebnis ist fantastisch!“</p>
           <div class="testimonial-card__author">
-            <div class="avatar">М</div>
+            <div class="avatar">M</div>
             <div>
-              <strong>Мария К.</strong>
-              <span>Портретная съёмка</span>
+              <strong data-i18n="t2.author">Maria K.</strong>
+              <span data-i18n="t2.role">Porträtshooting</span>
             </div>
           </div>
         </div>
         <div class="testimonial-card">
-          <p class="testimonial-card__text">«Снимали корпоратив — всё чётко, быстро и профессионально. Фото получили уже на следующий день.»</p>
+          <p class="testimonial-card__text" data-i18n="t3.text">„Unsere Firmenfeier wurde fotografiert — alles klar, schnell und professionell. Die Fotos hatten wir schon am nächsten Tag.“</p>
           <div class="testimonial-card__author">
-            <div class="avatar">И</div>
+            <div class="avatar">I</div>
             <div>
-              <strong>Игорь С.</strong>
-              <span>Корпоративное событие</span>
+              <strong data-i18n="t3.author">Igor S.</strong>
+              <span data-i18n="t3.role">Firmenevent</span>
             </div>
           </div>
         </div>
@@ -211,9 +230,12 @@
     <div class="contact__glow"></div>
     <div class="container contact__inner">
       <div class="contact__info">
-        <p class="eyebrow">Контакты</p>
-        <h2 class="section-title">Давайте создадим<br />что-то красивое</h2>
-        <p class="contact__desc">Оставьте заявку — я свяжусь с вами в течение дня, чтобы обсудить детали съёмки.</p>
+        <p class="eyebrow" data-i18n="contact.eyebrow">Kontakt</p>
+        <h2 class="section-title">
+          <span data-i18n="contact.title1">Lassen Sie uns</span><br />
+          <span data-i18n="contact.title2">etwas Schönes erschaffen</span>
+        </h2>
+        <p class="contact__desc" data-i18n="contact.desc">Hinterlassen Sie eine Anfrage — ich melde mich innerhalb eines Tages, um die Details zu besprechen.</p>
 
         <div class="contact__list">
           <a href="tel:+79990000000" class="contact__item">
@@ -226,7 +248,7 @@
           </a>
           <div class="contact__item">
             <span class="contact__item-icon">📍</span>
-            <span>Москва · выезд по всей области</span>
+            <span data-i18n="contact.location">Moskau · Anfahrt in der ganzen Region</span>
           </div>
         </div>
 
@@ -240,29 +262,29 @@
       <form class="contact__form" id="contactForm">
         <div class="form-row">
           <label>
-            <span>Имя</span>
-            <input type="text" name="name" placeholder="Как вас зовут?" required />
+            <span data-i18n="form.name">Name</span>
+            <input type="text" name="name" data-i18n-placeholder="form.namePh" placeholder="Wie heißen Sie?" required />
           </label>
           <label>
-            <span>Телефон</span>
-            <input type="tel" name="phone" placeholder="+7 (___) ___-__-__" required />
+            <span data-i18n="form.phone">Telefon</span>
+            <input type="tel" name="phone" data-i18n-placeholder="form.phonePh" placeholder="+49 ___ ________" required />
           </label>
         </div>
         <label>
-          <span>Тип съёмки</span>
+          <span data-i18n="form.type">Art des Shootings</span>
           <select name="type">
-            <option>Портретная съёмка</option>
-            <option>Свадебная съёмка</option>
-            <option>Событие</option>
-            <option>Love Story</option>
-            <option>Другое</option>
+            <option data-i18n="form.type1">Porträtshooting</option>
+            <option data-i18n="form.type2">Hochzeitsshooting</option>
+            <option data-i18n="form.type3">Event</option>
+            <option data-i18n="form.type4">Love Story</option>
+            <option data-i18n="form.type5">Sonstiges</option>
           </select>
         </label>
         <label>
-          <span>Сообщение</span>
-          <textarea name="message" rows="4" placeholder="Расскажите немного о съёмке..."></textarea>
+          <span data-i18n="form.message">Nachricht</span>
+          <textarea name="message" rows="4" data-i18n-placeholder="form.messagePh" placeholder="Erzählen Sie kurz von Ihrem Shooting..."></textarea>
         </label>
-        <button type="submit" class="btn btn--gradient btn--full">Отправить заявку</button>
+        <button type="submit" class="btn btn--gradient btn--full" data-i18n="form.submit">Anfrage senden</button>
         <p class="form-note" id="formNote"></p>
       </form>
     </div>
@@ -272,14 +294,14 @@
   <footer class="footer">
     <div class="container footer__inner">
       <a href="#home" class="logo">Dream<span>Lights</span> Fotos</a>
-      <p>&copy; <span id="year"></span> DreamLights Fotos. Все права защищены.</p>
-      <a href="#home" class="footer__top">Наверх ↑</a>
+      <p>&copy; <span id="year"></span> DreamLights Fotos. <span data-i18n="footer.rights">Alle Rechte vorbehalten.</span></p>
+      <a href="#home" class="footer__top" data-i18n="footer.top">Nach oben ↑</a>
     </div>
   </footer>
 
   <!-- Lightbox -->
   <div class="lightbox" id="lightbox">
-    <button class="lightbox__close" id="lightboxClose" aria-label="Закрыть">&times;</button>
+    <button class="lightbox__close" id="lightboxClose" type="button" data-i18n-aria="lightbox.close">&times;</button>
     <div class="lightbox__photo" id="lightboxPhoto"></div>
   </div>
 
