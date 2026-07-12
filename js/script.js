@@ -162,7 +162,7 @@ const translations = {
     "form.phone": "Telefon",
     "form.phonePh": "79 123 45 67",
     "form.phoneCountryAria": "Ländervorwahl",
-    "form.email": "E-Mail (optional)",
+    "form.email": "E-Mail",
     "form.emailPh": "deine@email.ch",
     "form.date": "Wunschtermin",
     "form.type": "Art des Shootings",
@@ -323,7 +323,7 @@ const translations = {
     "form.phone": "Phone",
     "form.phonePh": "79 123 45 67",
     "form.phoneCountryAria": "Country code",
-    "form.email": "Email (optional)",
+    "form.email": "Email",
     "form.emailPh": "your@email.com",
     "form.date": "Preferred date",
     "form.type": "Type of shoot",
@@ -886,13 +886,13 @@ form.addEventListener("submit", (e) => {
 
   const lines = [
     "Neue Anfrage von der Website:",
-    `Name: ${name}`,
-    `Telefon: ${phone}`,
-    email ? `E-Mail: ${email}` : null,
-    date ? `Wunschtermin: ${date}` : null,
-    `Art des Shootings: ${typeLabel}`,
-    message ? `Nachricht: ${message}` : null,
-  ].filter(Boolean);
+    `• Name: ${name}`,
+    `• Telefon: ${phone}`,
+    `• E-Mail: ${email}`,
+    `• Wunschtermin: ${date}`,
+    `• Art des Shootings: ${typeLabel}`,
+    `• Nachricht: ${message}`,
+  ];
 
   const waUrl = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(lines.join("\n"))}`;
   window.open(waUrl, "_blank", "noopener");
@@ -900,6 +900,13 @@ form.addEventListener("submit", (e) => {
   formNote.textContent = t("form.success");
   formNote.classList.add("success");
   form.reset();
+  phoneCountryFlag.style.visibility = "";
+  phoneCountryFlag.src = flagUrl("CH", "24x18");
+  phoneCountryCode.textContent = "+41";
+  phoneCountryMenu
+    .querySelectorAll(".phone-country__option.active")
+    .forEach((el) => el.classList.remove("active"));
+  phoneCountryMenu.querySelector('[data-iso="CH"]').classList.add("active");
 });
 
 /* ---------- Reveal on scroll ---------- */
