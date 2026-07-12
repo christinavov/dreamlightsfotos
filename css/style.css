@@ -659,7 +659,7 @@ section { position: relative; padding: 120px 0; }
 .service-card__price {
   font-size: 22px;
   font-weight: 800;
-  margin: 6px 0 4px;
+  margin: auto 0 4px;
 }
 
 /* ---------- Testimonials ---------- */
