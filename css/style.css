@@ -1203,6 +1203,42 @@ a.contact__item:hover .contact__item-icon {
   .whatsapp-fab svg { width: 26px; height: 26px; }
 }
 
+/* ---------- Floating Instagram button ---------- */
+.instagram-fab {
+  position: fixed;
+  right: 96px;
+  bottom: 24px;
+  width: 58px;
+  height: 58px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 30% 107%, #fdf497 0%, #fdf497 5%, #fd5949 45%, #d6249f 60%, #285AEB 90%);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 8px 24px rgba(214, 36, 159, 0.45);
+  z-index: 150;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  animation: instagramPulse 2.6s ease-in-out infinite;
+}
+
+.instagram-fab svg { width: 27px; height: 27px; }
+
+.instagram-fab:hover {
+  transform: scale(1.08);
+  box-shadow: 0 10px 30px rgba(214, 36, 159, 0.6);
+}
+
+@keyframes instagramPulse {
+  0%, 100% { box-shadow: 0 8px 24px rgba(214, 36, 159, 0.45), 0 0 0 0 rgba(214, 36, 159, 0.45); }
+  50% { box-shadow: 0 8px 24px rgba(214, 36, 159, 0.45), 0 0 0 10px rgba(214, 36, 159, 0); }
+}
+
+@media (max-width: 620px) {
+  .instagram-fab { right: 78px; bottom: 16px; width: 52px; height: 52px; }
+  .instagram-fab svg { width: 24px; height: 24px; }
+}
+
 /* ---------- Floating scroll-to-top button ---------- */
 .scrolltop-fab {
   position: fixed;

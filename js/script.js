@@ -186,6 +186,7 @@ const translations = {
     "footer.top": "Nach oben ↑",
     "lightbox.close": "Schließen",
     "whatsapp.fab": "Per WhatsApp schreiben",
+    "instagram.fab": "Auf Instagram besuchen",
     "scrolltop.fab": "Nach oben scrollen",
   },
   en: {
@@ -348,6 +349,7 @@ const translations = {
     "footer.top": "Back to top ↑",
     "lightbox.close": "Close",
     "whatsapp.fab": "Message us on WhatsApp",
+    "instagram.fab": "Visit us on Instagram",
     "scrolltop.fab": "Scroll to top",
   },
 };
