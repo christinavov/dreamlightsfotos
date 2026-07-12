@@ -876,11 +876,106 @@ a.contact__item:hover .contact__item-icon {
   gap: 8px;
 }
 
-.form-phone select {
-  flex: 0 0 118px;
-  padding-left: 10px;
-  padding-right: 6px;
+.phone-country {
+  position: relative;
+  flex: 0 0 122px;
 }
+
+.phone-country__btn {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: var(--bg-alt);
+  border: 1px solid rgba(56, 189, 248, 0.35);
+  border-radius: 10px;
+  padding: 12px 10px;
+  color: var(--text);
+  font-size: 14.5px;
+  font-family: inherit;
+  cursor: pointer;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.phone-country__btn:focus-visible,
+.phone-country.open .phone-country__btn {
+  border-color: var(--grad-2);
+  box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.22), 0 0 24px rgba(29, 78, 216, 0.35);
+}
+
+.phone-country__flag {
+  width: 22px;
+  height: 16px;
+  object-fit: cover;
+  border-radius: 2px;
+  flex-shrink: 0;
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.15);
+}
+
+.phone-country .lang-switch__chevron { margin-left: auto; }
+
+.phone-country.open .lang-switch__chevron { transform: rotate(180deg); }
+
+.phone-country__menu {
+  position: absolute;
+  top: calc(100% + 8px);
+  left: 0;
+  width: 260px;
+  max-height: 280px;
+  overflow-y: auto;
+  background: var(--surface);
+  border: 1px solid rgba(56, 189, 248, 0.35);
+  border-radius: 14px;
+  padding: 6px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  opacity: 0;
+  transform: translateY(-8px);
+  pointer-events: none;
+  transition: opacity 0.2s ease, transform 0.2s ease;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5), 0 0 30px rgba(29, 78, 216, 0.25);
+  z-index: 110;
+}
+
+.phone-country.open .phone-country__menu {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+
+.phone-country__option {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  background: none;
+  border: none;
+  color: var(--text-dim);
+  font-size: 13.5px;
+  padding: 8px 10px;
+  border-radius: 9px;
+  cursor: pointer;
+  text-align: left;
+  transition: background 0.15s ease, color 0.15s ease;
+}
+
+.phone-country__option img {
+  width: 20px;
+  height: 15px;
+  object-fit: cover;
+  border-radius: 2px;
+  flex-shrink: 0;
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.15);
+}
+
+.phone-country__option span { flex: 1; }
+
+.phone-country__option .phone-country__dial { flex: 0 0 auto; color: var(--text-dim); }
+
+.phone-country__option:hover,
+.phone-country__option.active { background: var(--surface-2); color: var(--text); }
 
 .form-phone input {
   flex: 1 1 auto;
