@@ -712,6 +712,168 @@ form.phone.addEventListener("input", () => {
   form.phone.value = form.phone.value.replace(/[^0-9\s]/g, "");
 });
 
+/* ---------- Phone country code picker ---------- */
+const PHONE_COUNTRIES = [
+  { iso: "CH", name: "Switzerland", code: "+41" },
+  { iso: "DE", name: "Germany", code: "+49" },
+  { iso: "AT", name: "Austria", code: "+43" },
+  { iso: "FR", name: "France", code: "+33" },
+  { iso: "IT", name: "Italy", code: "+39" },
+  { iso: "GB", name: "United Kingdom", code: "+44" },
+  { iso: "US", name: "United States", code: "+1" },
+  { iso: "CA", name: "Canada", code: "+1" },
+  { iso: "ES", name: "Spain", code: "+34" },
+  { iso: "PT", name: "Portugal", code: "+351" },
+  { iso: "NL", name: "Netherlands", code: "+31" },
+  { iso: "BE", name: "Belgium", code: "+32" },
+  { iso: "LU", name: "Luxembourg", code: "+352" },
+  { iso: "IE", name: "Ireland", code: "+353" },
+  { iso: "DK", name: "Denmark", code: "+45" },
+  { iso: "SE", name: "Sweden", code: "+46" },
+  { iso: "NO", name: "Norway", code: "+47" },
+  { iso: "FI", name: "Finland", code: "+358" },
+  { iso: "IS", name: "Iceland", code: "+354" },
+  { iso: "PL", name: "Poland", code: "+48" },
+  { iso: "CZ", name: "Czech Republic", code: "+420" },
+  { iso: "SK", name: "Slovakia", code: "+421" },
+  { iso: "HU", name: "Hungary", code: "+36" },
+  { iso: "RO", name: "Romania", code: "+40" },
+  { iso: "BG", name: "Bulgaria", code: "+359" },
+  { iso: "GR", name: "Greece", code: "+30" },
+  { iso: "HR", name: "Croatia", code: "+385" },
+  { iso: "SI", name: "Slovenia", code: "+386" },
+  { iso: "RS", name: "Serbia", code: "+381" },
+  { iso: "BA", name: "Bosnia and Herzegovina", code: "+387" },
+  { iso: "ME", name: "Montenegro", code: "+382" },
+  { iso: "MK", name: "North Macedonia", code: "+389" },
+  { iso: "AL", name: "Albania", code: "+355" },
+  { iso: "XK", name: "Kosovo", code: "+383" },
+  { iso: "UA", name: "Ukraine", code: "+380" },
+  { iso: "BY", name: "Belarus", code: "+375" },
+  { iso: "RU", name: "Russia", code: "+7" },
+  { iso: "MD", name: "Moldova", code: "+373" },
+  { iso: "LT", name: "Lithuania", code: "+370" },
+  { iso: "LV", name: "Latvia", code: "+371" },
+  { iso: "EE", name: "Estonia", code: "+372" },
+  { iso: "TR", name: "Turkey", code: "+90" },
+  { iso: "CY", name: "Cyprus", code: "+357" },
+  { iso: "MT", name: "Malta", code: "+356" },
+  { iso: "LI", name: "Liechtenstein", code: "+423" },
+  { iso: "MC", name: "Monaco", code: "+377" },
+  { iso: "AD", name: "Andorra", code: "+376" },
+  { iso: "SM", name: "San Marino", code: "+378" },
+  { iso: "VA", name: "Vatican City", code: "+379" },
+  { iso: "GE", name: "Georgia", code: "+995" },
+  { iso: "AM", name: "Armenia", code: "+374" },
+  { iso: "AZ", name: "Azerbaijan", code: "+994" },
+  { iso: "KZ", name: "Kazakhstan", code: "+7" },
+  { iso: "UZ", name: "Uzbekistan", code: "+998" },
+  { iso: "IN", name: "India", code: "+91" },
+  { iso: "PK", name: "Pakistan", code: "+92" },
+  { iso: "BD", name: "Bangladesh", code: "+880" },
+  { iso: "LK", name: "Sri Lanka", code: "+94" },
+  { iso: "NP", name: "Nepal", code: "+977" },
+  { iso: "CN", name: "China", code: "+86" },
+  { iso: "JP", name: "Japan", code: "+81" },
+  { iso: "KR", name: "South Korea", code: "+82" },
+  { iso: "TW", name: "Taiwan", code: "+886" },
+  { iso: "HK", name: "Hong Kong", code: "+852" },
+  { iso: "SG", name: "Singapore", code: "+65" },
+  { iso: "MY", name: "Malaysia", code: "+60" },
+  { iso: "TH", name: "Thailand", code: "+66" },
+  { iso: "VN", name: "Vietnam", code: "+84" },
+  { iso: "PH", name: "Philippines", code: "+63" },
+  { iso: "ID", name: "Indonesia", code: "+62" },
+  { iso: "IL", name: "Israel", code: "+972" },
+  { iso: "AE", name: "United Arab Emirates", code: "+971" },
+  { iso: "SA", name: "Saudi Arabia", code: "+966" },
+  { iso: "QA", name: "Qatar", code: "+974" },
+  { iso: "KW", name: "Kuwait", code: "+965" },
+  { iso: "BH", name: "Bahrain", code: "+973" },
+  { iso: "OM", name: "Oman", code: "+968" },
+  { iso: "JO", name: "Jordan", code: "+962" },
+  { iso: "LB", name: "Lebanon", code: "+961" },
+  { iso: "EG", name: "Egypt", code: "+20" },
+  { iso: "MA", name: "Morocco", code: "+212" },
+  { iso: "DZ", name: "Algeria", code: "+213" },
+  { iso: "TN", name: "Tunisia", code: "+216" },
+  { iso: "ZA", name: "South Africa", code: "+27" },
+  { iso: "NG", name: "Nigeria", code: "+234" },
+  { iso: "KE", name: "Kenya", code: "+254" },
+  { iso: "GH", name: "Ghana", code: "+233" },
+  { iso: "ET", name: "Ethiopia", code: "+251" },
+  { iso: "AU", name: "Australia", code: "+61" },
+  { iso: "NZ", name: "New Zealand", code: "+64" },
+  { iso: "MX", name: "Mexico", code: "+52" },
+  { iso: "BR", name: "Brazil", code: "+55" },
+  { iso: "AR", name: "Argentina", code: "+54" },
+  { iso: "CL", name: "Chile", code: "+56" },
+  { iso: "CO", name: "Colombia", code: "+57" },
+  { iso: "PE", name: "Peru", code: "+51" },
+  { iso: "VE", name: "Venezuela", code: "+58" },
+  { iso: "EC", name: "Ecuador", code: "+593" },
+  { iso: "UY", name: "Uruguay", code: "+598" },
+  { iso: "PA", name: "Panama", code: "+507" },
+  { iso: "CR", name: "Costa Rica", code: "+506" },
+];
+
+const phoneCountry = document.getElementById("phoneCountry");
+const phoneCountryBtn = document.getElementById("phoneCountryBtn");
+const phoneCountryFlag = document.getElementById("phoneCountryFlag");
+const phoneCountryCode = document.getElementById("phoneCountryCode");
+const phoneCountryValue = document.getElementById("phoneCountryValue");
+const phoneCountryMenu = document.getElementById("phoneCountryMenu");
+
+function flagUrl(iso, size) {
+  return `https://flagcdn.com/${size}/${iso.toLowerCase()}.png`;
+}
+
+PHONE_COUNTRIES.forEach((country) => {
+  const opt = document.createElement("button");
+  opt.type = "button";
+  opt.className = "phone-country__option";
+  opt.dataset.iso = country.iso;
+  opt.dataset.code = country.code;
+  if (country.iso === "CH") opt.classList.add("active");
+  opt.innerHTML = `
+    <img src="${flagUrl(country.iso, "20x15")}" alt="" width="20" height="15" onerror="this.style.visibility='hidden'" />
+    <span>${country.name}</span>
+    <span class="phone-country__dial">${country.code}</span>
+  `;
+  opt.addEventListener("click", () => {
+    phoneCountryFlag.style.visibility = "";
+    phoneCountryFlag.src = flagUrl(country.iso, "24x18");
+    phoneCountryCode.textContent = country.code;
+    phoneCountryValue.value = country.code;
+    phoneCountryMenu
+      .querySelectorAll(".phone-country__option.active")
+      .forEach((el) => el.classList.remove("active"));
+    opt.classList.add("active");
+    phoneCountry.classList.remove("open");
+    phoneCountryBtn.setAttribute("aria-expanded", "false");
+  });
+  phoneCountryMenu.appendChild(opt);
+});
+
+phoneCountryBtn.addEventListener("click", () => {
+  const isOpen = phoneCountry.classList.toggle("open");
+  phoneCountryBtn.setAttribute("aria-expanded", String(isOpen));
+});
+
+document.addEventListener("click", (e) => {
+  if (!phoneCountry.contains(e.target)) {
+    phoneCountry.classList.remove("open");
+    phoneCountryBtn.setAttribute("aria-expanded", "false");
+  }
+});
+
+document.addEventListener("keydown", (e) => {
+  if (e.key === "Escape") {
+    phoneCountry.classList.remove("open");
+    phoneCountryBtn.setAttribute("aria-expanded", "false");
+  }
+});
+
 form.addEventListener("submit", (e) => {
   e.preventDefault();
 
