@@ -186,6 +186,7 @@ const translations = {
     "footer.top": "Nach oben ↑",
     "lightbox.close": "Schließen",
     "whatsapp.fab": "Per WhatsApp schreiben",
+    "scrolltop.fab": "Nach oben scrollen",
   },
   en: {
     "meta.title": "Dream Lights Photos",
@@ -347,6 +348,7 @@ const translations = {
     "footer.top": "Back to top ↑",
     "lightbox.close": "Close",
     "whatsapp.fab": "Message us on WhatsApp",
+    "scrolltop.fab": "Scroll to top",
   },
 };
 
@@ -406,6 +408,15 @@ const header = document.getElementById("header");
 const onScroll = () => header.classList.toggle("scrolled", window.scrollY > 20);
 onScroll();
 window.addEventListener("scroll", onScroll);
+
+/* ---------- Scroll-to-top button ---------- */
+const scrollTopBtn = document.getElementById("scrollTopBtn");
+const onScrollTopVisibility = () => scrollTopBtn.classList.toggle("visible", window.scrollY > 500);
+onScrollTopVisibility();
+window.addEventListener("scroll", onScrollTopVisibility);
+scrollTopBtn.addEventListener("click", () => {
+  window.scrollTo({ top: 0, behavior: "smooth" });
+});
 
 /* ---------- Mobile nav ---------- */
 const burger = document.getElementById("burger");

@@ -20,6 +20,8 @@
 
 html { scroll-behavior: smooth; }
 
+section[id] { scroll-margin-top: 100px; }
+
 body {
   background: var(--bg);
   color: var(--text);
@@ -1199,6 +1201,47 @@ a.contact__item:hover .contact__item-icon {
 @media (max-width: 620px) {
   .whatsapp-fab { right: 16px; bottom: 16px; width: 52px; height: 52px; }
   .whatsapp-fab svg { width: 26px; height: 26px; }
+}
+
+/* ---------- Floating scroll-to-top button ---------- */
+.scrolltop-fab {
+  position: fixed;
+  right: 24px;
+  bottom: 96px;
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  background: var(--gradient);
+  color: #fff;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 8px 24px rgba(29, 78, 216, 0.4), 0 0 20px rgba(56, 189, 248, 0.3);
+  cursor: pointer;
+  z-index: 150;
+  opacity: 0;
+  transform: translateY(12px);
+  pointer-events: none;
+  transition: opacity 0.25s ease, transform 0.25s ease, box-shadow 0.2s ease;
+}
+
+.scrolltop-fab.visible {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+
+.scrolltop-fab svg { width: 20px; height: 20px; }
+
+.scrolltop-fab:hover {
+  box-shadow: 0 10px 30px rgba(29, 78, 216, 0.55), 0 0 26px rgba(56, 189, 248, 0.4);
+  transform: translateY(-3px);
+}
+
+@media (max-width: 620px) {
+  .scrolltop-fab { right: 16px; bottom: 82px; width: 42px; height: 42px; }
+  .scrolltop-fab svg { width: 18px; height: 18px; }
 }
 
 /* ---------- Responsive ---------- */
