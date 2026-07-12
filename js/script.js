@@ -159,7 +159,8 @@ const translations = {
     "form.name": "Name",
     "form.namePh": "Wie heißen Sie?",
     "form.phone": "Telefon",
-    "form.phonePh": "+49 ___ ________",
+    "form.phonePh": "79 123 45 67",
+    "form.phoneCountryAria": "Ländervorwahl",
     "form.email": "E-Mail (optional)",
     "form.emailPh": "deine@email.ch",
     "form.date": "Wunschtermin",
@@ -318,7 +319,8 @@ const translations = {
     "form.name": "Name",
     "form.namePh": "What's your name?",
     "form.phone": "Phone",
-    "form.phonePh": "+1 ___ ___-____",
+    "form.phonePh": "79 123 45 67",
+    "form.phoneCountryAria": "Country code",
     "form.email": "Email (optional)",
     "form.emailPh": "your@email.com",
     "form.date": "Preferred date",
@@ -704,11 +706,15 @@ const form = document.getElementById("contactForm");
 const formNote = document.getElementById("formNote");
 const WHATSAPP_NUMBER = "41767402602";
 
+form.phone.addEventListener("input", () => {
+  form.phone.value = form.phone.value.replace(/[^0-9\s]/g, "");
+});
+
 form.addEventListener("submit", (e) => {
   e.preventDefault();
 
   const name = form.name.value.trim();
-  const phone = form.phone.value.trim();
+  const phone = `${form.phoneCountry.value} ${form.phone.value.trim()}`.trim();
   const email = form.email.value.trim();
   const date = form.date.value;
   const typeLabel = form.type.options[form.type.selectedIndex].textContent;
