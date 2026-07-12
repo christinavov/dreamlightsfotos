@@ -20,7 +20,7 @@
 
 html { scroll-behavior: smooth; }
 
-section[id] { scroll-margin-top: 78px; }
+section[id] { scroll-margin-top: 74px; }
 
 body {
   background: var(--bg);
@@ -44,7 +44,7 @@ ul { list-style: none; }
   padding: 0 24px;
 }
 
-section { position: relative; padding: 48px 0 120px; }
+section { position: relative; padding: 16px 0 120px; }
 
 .gradient-text {
   background: var(--gradient);
