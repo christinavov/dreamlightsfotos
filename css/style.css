@@ -601,7 +601,7 @@ section { position: relative; padding: 120px 0; }
 
 .services__grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  grid-template-columns: repeat(3, 1fr);
   gap: 24px;
   margin-top: 48px;
 }
@@ -861,7 +861,6 @@ a.contact__item:hover .contact__item-icon {
 }
 
 .contact__form input,
-.contact__form select,
 .contact__form textarea {
   background: var(--bg-alt);
   border: 1px solid rgba(56, 189, 248, 0.35);
@@ -877,36 +876,93 @@ a.contact__item:hover .contact__item-icon {
 }
 
 .contact__form input:focus,
-.contact__form select:focus,
 .contact__form textarea:focus {
   border-color: var(--grad-2);
   box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.22), 0 0 24px rgba(29, 78, 216, 0.35);
 }
 
-.contact__form select {
-  appearance: none;
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  background-color: var(--bg-alt);
-  background-image:
-    linear-gradient(135deg, rgba(29, 78, 216, 0.16), rgba(56, 189, 248, 0.08)),
-    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2338bdf8' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
-  background-repeat: no-repeat, no-repeat;
-  background-position: center, right 16px center;
-  background-size: 100%, 16px 16px;
-  padding-right: 44px;
-  color: var(--grad-2);
-  font-weight: 600;
-  letter-spacing: 0.01em;
-  cursor: pointer;
+.type-select {
+  position: relative;
 }
 
-.contact__form select:hover { border-color: rgba(56, 189, 248, 0.6); }
+.type-select__btn {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  background: linear-gradient(135deg, rgba(29, 78, 216, 0.16), rgba(56, 189, 248, 0.08)), var(--bg-alt);
+  border: 1px solid rgba(56, 189, 248, 0.35);
+  border-radius: 10px;
+  padding: 12px 14px;
+  color: var(--grad-2);
+  font-size: 14.5px;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  font-family: inherit;
+  outline: none;
+  cursor: pointer;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
 
-.contact__form select option {
+.type-select__btn .lang-switch__chevron { flex-shrink: 0; color: var(--grad-2); }
+
+.type-select__btn:hover { border-color: rgba(56, 189, 248, 0.6); }
+
+.type-select__btn:focus-visible,
+.type-select.open .type-select__btn {
+  border-color: var(--grad-2);
+  box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.22), 0 0 24px rgba(29, 78, 216, 0.35);
+}
+
+.type-select.open .lang-switch__chevron { transform: rotate(180deg); }
+
+.type-select__menu {
+  position: absolute;
+  top: calc(100% + 8px);
+  left: 0;
+  right: 0;
+  max-height: 320px;
+  overflow-y: auto;
   background: var(--surface);
+  border: 1px solid rgba(56, 189, 248, 0.35);
+  border-radius: 14px;
+  padding: 6px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  opacity: 0;
+  transform: translateY(-8px);
+  pointer-events: none;
+  transition: opacity 0.2s ease, transform 0.2s ease;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5), 0 0 30px rgba(29, 78, 216, 0.25);
+  z-index: 110;
+}
+
+.type-select.open .type-select__menu {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+
+.type-select__option {
+  width: 100%;
+  background: none;
+  border: none;
+  color: var(--text-dim);
+  font-size: 14px;
+  font-family: inherit;
+  padding: 10px 12px;
+  border-radius: 9px;
+  cursor: pointer;
+  text-align: left;
+  transition: background 0.15s ease, color 0.15s ease;
+}
+
+.type-select__option:hover,
+.type-select__option.active {
+  background: linear-gradient(135deg, rgba(29, 78, 216, 0.35), rgba(56, 189, 248, 0.22));
   color: var(--text);
-  font-weight: 500;
 }
 
 .form-phone {
@@ -1152,6 +1208,7 @@ a.contact__item:hover .contact__item-icon {
   .about__media { max-width: 420px; margin: 0 auto; }
   .testimonials__track { grid-template-columns: repeat(2, 1fr); }
   .gallery { grid-template-columns: repeat(2, 1fr); }
+  .services__grid { grid-template-columns: repeat(2, 1fr); }
 }
 
 @media (max-width: 800px) {
@@ -1175,7 +1232,8 @@ a.contact__item:hover .contact__item-icon {
 
 @media (max-width: 620px) {
   .testimonials__track,
-  .gallery { grid-template-columns: 1fr; }
+  .gallery,
+  .services__grid { grid-template-columns: 1fr; }
   .form-row { grid-template-columns: 1fr; }
   .hero__actions { flex-direction: column; width: 100%; }
   .hero__actions .btn { width: 100%; }

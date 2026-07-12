@@ -412,18 +412,27 @@
         </div>
         <label>
           <span data-i18n="form.type">Art des Shootings</span>
-          <select name="type" id="formType" required>
-            <option value="portrait" data-i18n="form.type1">Porträtshooting</option>
-            <option value="love" data-i18n="form.type4">Love Story</option>
-            <option value="family" data-i18n="form.type6">Familienshooting</option>
-            <option value="fashion" data-i18n="form.type7">Fashion</option>
-            <option value="art" data-i18n="form.type8">Art</option>
-            <option value="wedding" data-i18n="form.type2">Hochzeitsshooting</option>
-            <option value="event" data-i18n="form.type3">Event</option>
-            <option value="maternity" data-i18n="form.type10">Schwangerschaft</option>
-            <option value="business" data-i18n="form.type11">Business</option>
-            <option value="other" data-i18n="form.type5">Sonstiges</option>
-          </select>
+          <div class="type-select" id="typeSelect">
+            <button type="button" class="type-select__btn" id="typeSelectBtn" aria-haspopup="listbox" aria-expanded="false">
+              <span id="typeSelectLabel" data-i18n="form.type1">Porträtshooting</span>
+              <svg class="lang-switch__chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <polyline points="6 9 12 15 18 9"></polyline>
+              </svg>
+            </button>
+            <input type="hidden" name="type" id="formType" value="portrait" required />
+            <div class="type-select__menu" id="typeSelectMenu" role="listbox">
+              <button type="button" class="type-select__option active" data-value="portrait" data-i18n="form.type1">Porträtshooting</button>
+              <button type="button" class="type-select__option" data-value="love" data-i18n="form.type4">Love Story</button>
+              <button type="button" class="type-select__option" data-value="family" data-i18n="form.type6">Familienshooting</button>
+              <button type="button" class="type-select__option" data-value="fashion" data-i18n="form.type7">Fashion</button>
+              <button type="button" class="type-select__option" data-value="art" data-i18n="form.type8">Art</button>
+              <button type="button" class="type-select__option" data-value="wedding" data-i18n="form.type2">Hochzeitsshooting</button>
+              <button type="button" class="type-select__option" data-value="event" data-i18n="form.type3">Event</button>
+              <button type="button" class="type-select__option" data-value="maternity" data-i18n="form.type10">Schwangerschaft</button>
+              <button type="button" class="type-select__option" data-value="business" data-i18n="form.type11">Business</button>
+              <button type="button" class="type-select__option" data-value="other" data-i18n="form.type5">Sonstiges</button>
+            </div>
+          </div>
         </label>
         <label>
           <span data-i18n="form.message">Nachricht</span>
