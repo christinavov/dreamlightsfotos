@@ -657,11 +657,56 @@ filters.forEach((btn) => {
   });
 });
 
+/* ---------- Shoot type custom dropdown ---------- */
+const typeSelect = document.getElementById("typeSelect");
+const typeSelectBtn = document.getElementById("typeSelectBtn");
+const typeSelectLabel = document.getElementById("typeSelectLabel");
+const typeSelectValue = document.getElementById("formType");
+const typeSelectMenu = document.getElementById("typeSelectMenu");
+
+function selectShootType(value) {
+  const opt = typeSelectMenu.querySelector(`[data-value="${value}"]`);
+  if (!opt) return;
+  typeSelectValue.value = value;
+  typeSelectLabel.textContent = opt.textContent;
+  typeSelectLabel.dataset.i18n = opt.dataset.i18n;
+  typeSelectMenu
+    .querySelectorAll(".type-select__option.active")
+    .forEach((el) => el.classList.remove("active"));
+  opt.classList.add("active");
+}
+
+typeSelectBtn.addEventListener("click", () => {
+  const isOpen = typeSelect.classList.toggle("open");
+  typeSelectBtn.setAttribute("aria-expanded", String(isOpen));
+});
+
+typeSelectMenu.querySelectorAll(".type-select__option").forEach((opt) => {
+  opt.addEventListener("click", () => {
+    selectShootType(opt.dataset.value);
+    typeSelect.classList.remove("open");
+    typeSelectBtn.setAttribute("aria-expanded", "false");
+  });
+});
+
+document.addEventListener("click", (e) => {
+  if (!typeSelect.contains(e.target)) {
+    typeSelect.classList.remove("open");
+    typeSelectBtn.setAttribute("aria-expanded", "false");
+  }
+});
+
+document.addEventListener("keydown", (e) => {
+  if (e.key === "Escape") {
+    typeSelect.classList.remove("open");
+    typeSelectBtn.setAttribute("aria-expanded", "false");
+  }
+});
+
 /* ---------- Service card "Auswählen" -> pre-fill contact form ---------- */
-const formTypeSelect = document.getElementById("formType");
 document.querySelectorAll("[data-service-type]").forEach((btn) => {
   btn.addEventListener("click", () => {
-    if (formTypeSelect) formTypeSelect.value = btn.dataset.serviceType;
+    selectShootType(btn.dataset.serviceType);
   });
 });
 
@@ -881,7 +926,7 @@ form.addEventListener("submit", (e) => {
   const phone = `${form.phoneCountry.value} ${form.phone.value.trim()}`.trim();
   const email = form.email.value.trim();
   const date = form.date.value;
-  const typeLabel = form.type.options[form.type.selectedIndex].textContent;
+  const typeLabel = typeSelectLabel.textContent;
   const message = form.message.value.trim();
 
   const lines = [
@@ -907,6 +952,7 @@ form.addEventListener("submit", (e) => {
     .querySelectorAll(".phone-country__option.active")
     .forEach((el) => el.classList.remove("active"));
   phoneCountryMenu.querySelector('[data-iso="CH"]').classList.add("active");
+  selectShootType("portrait");
 });
 
 /* ---------- Reveal on scroll ---------- */
