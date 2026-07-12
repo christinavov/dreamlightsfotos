@@ -402,8 +402,8 @@
         </div>
         <div class="form-row">
           <label>
-            <span data-i18n="form.email">E-Mail (optional)</span>
-            <input type="email" name="email" data-i18n-placeholder="form.emailPh" placeholder="deine@email.ch" />
+            <span data-i18n="form.email">E-Mail</span>
+            <input type="email" name="email" data-i18n-placeholder="form.emailPh" placeholder="deine@email.ch" required />
           </label>
           <label>
             <span data-i18n="form.date">Wunschtermin</span>
@@ -412,7 +412,7 @@
         </div>
         <label>
           <span data-i18n="form.type">Art des Shootings</span>
-          <select name="type" id="formType">
+          <select name="type" id="formType" required>
             <option value="portrait" data-i18n="form.type1">Porträtshooting</option>
             <option value="love" data-i18n="form.type4">Love Story</option>
             <option value="family" data-i18n="form.type6">Familienshooting</option>
@@ -427,7 +427,7 @@
         </label>
         <label>
           <span data-i18n="form.message">Nachricht</span>
-          <textarea name="message" rows="4" data-i18n-placeholder="form.messagePh" placeholder="Erzählen Sie kurz von Ihrem Shooting..."></textarea>
+          <textarea name="message" rows="4" data-i18n-placeholder="form.messagePh" placeholder="Erzählen Sie kurz von Ihrem Shooting..." required></textarea>
         </label>
         <p class="form-hint">
           <svg class="form-hint__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
