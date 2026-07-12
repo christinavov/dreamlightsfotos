@@ -27,7 +27,7 @@ if (aboutPhotoEl && aboutPhotos.length) {
 /* ---------- Translations ---------- */
 const translations = {
   de: {
-    "meta.title": "Dream Lights Photos — Fotograf",
+    "meta.title": "Dream Lights Photos",
     "meta.description": "Dream Lights Photos — professionelle Fotografie: Porträts, Hochzeiten, Events, Love Story.",
     "nav.home": "Startseite",
     "nav.about": "Über mich",
@@ -188,7 +188,7 @@ const translations = {
     "whatsapp.fab": "Per WhatsApp schreiben",
   },
   en: {
-    "meta.title": "Dream Lights Photos — Photographer",
+    "meta.title": "Dream Lights Photos",
     "meta.description": "Dream Lights Photos — professional photography: portraits, weddings, events, love story.",
     "nav.home": "Home",
     "nav.about": "About",
