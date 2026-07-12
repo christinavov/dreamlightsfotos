@@ -926,18 +926,20 @@ form.addEventListener("submit", (e) => {
   const phone = `${form.phoneCountry.value} ${form.phone.value.trim()}`.trim();
   const email = form.email.value.trim();
   const date = form.date.value;
+  const [year, month, day] = date.split("-").map(Number);
+  const formattedDate = `${day}.${month}.${year}`;
   const typeLabel = typeSelectLabel.textContent;
   const message = form.message.value.trim();
 
   const lines = [
-    "Neue Anfrage von der Website:",
+    "Neue Anfrage für Fotoshooting",
     `• Name: ${name}`,
     `• Telefon: ${phone}`,
     `• E-Mail: ${email}`,
-    `• Wunschtermin: ${date}`,
+    `• Wunschtermin: ${formattedDate}`,
     `• Art des Shootings: ${typeLabel}`,
-    `• Nachricht: ${message}`,
-  ];
+    message ? `• Nachricht: ${message}` : null,
+  ].filter(Boolean);
 
   const waUrl = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(lines.join("\n"))}`;
   window.open(waUrl, "_blank", "noopener");
