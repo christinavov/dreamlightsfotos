@@ -472,15 +472,15 @@ const observer = new IntersectionObserver(
 
 /* ---------- Gallery data ---------- */
 const gradients = [
-  "linear-gradient(135deg,#7c3aed,#3b82f6)",
-  "linear-gradient(135deg,#ec4899,#7c3aed)",
-  "linear-gradient(135deg,#3b82f6,#06b6d4)",
-  "linear-gradient(135deg,#f97316,#ec4899)",
-  "linear-gradient(135deg,#7c3aed,#ec4899)",
-  "linear-gradient(135deg,#06b6d4,#7c3aed)",
-  "linear-gradient(135deg,#10b981,#06b6d4)",
-  "linear-gradient(135deg,#f472b6,#a78bfa)",
-  "linear-gradient(135deg,#64748b,#0ea5e9)",
+  "linear-gradient(135deg,#1d4ed8,#38bdf8)",
+  "linear-gradient(135deg,#0c4a6e,#1d4ed8)",
+  "linear-gradient(135deg,#0369a1,#7dd3fc)",
+  "linear-gradient(135deg,#1e3a8a,#38bdf8)",
+  "linear-gradient(135deg,#0284c7,#1d4ed8)",
+  "linear-gradient(135deg,#38bdf8,#0c4a6e)",
+  "linear-gradient(135deg,#334155,#1d4ed8)",
+  "linear-gradient(135deg,#0f172a,#38bdf8)",
+  "linear-gradient(135deg,#1d4ed8,#0284c7)",
 ];
 
 // Fallback placeholders shown for a category until real photos are uploaded
