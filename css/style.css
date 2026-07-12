@@ -833,28 +833,48 @@ a.contact__item:hover { color: var(--text); }
   flex-direction: column;
   gap: 8px;
   font-size: 13.5px;
-  color: var(--text-dim);
+  font-weight: 700;
+  color: var(--text);
 }
 
 .contact__form input,
 .contact__form select,
 .contact__form textarea {
   background: var(--bg-alt);
-  border: 1px solid var(--border);
+  border: 1px solid rgba(56, 189, 248, 0.35);
   border-radius: 10px;
   padding: 12px 14px;
   color: var(--text);
   font-size: 14.5px;
   font-family: inherit;
   outline: none;
-  transition: border-color 0.2s ease;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
   resize: vertical;
   color-scheme: dark;
 }
 
 .contact__form input:focus,
 .contact__form select:focus,
-.contact__form textarea:focus { border-color: var(--grad-1); }
+.contact__form textarea:focus {
+  border-color: var(--grad-2);
+  box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.22), 0 0 24px rgba(29, 78, 216, 0.35);
+}
+
+.form-phone {
+  display: flex;
+  gap: 8px;
+}
+
+.form-phone select {
+  flex: 0 0 118px;
+  padding-left: 10px;
+  padding-right: 6px;
+}
+
+.form-phone input {
+  flex: 1 1 auto;
+  min-width: 0;
+}
 
 .form-hint {
   display: flex;
