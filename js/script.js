@@ -20,7 +20,7 @@ if (aboutPhotoEl && aboutPhotos.length) {
     window.setInterval(() => {
       aboutPhotoIndex = (aboutPhotoIndex + 1) % aboutPhotos.length;
       showAboutPhoto(aboutPhotoIndex);
-    }, 120000);
+    }, 20000);
   }
 }
 
