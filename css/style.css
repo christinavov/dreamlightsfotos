@@ -345,6 +345,7 @@ section { position: relative; padding: 120px 0; }
 .hero__content { max-width: 780px; margin: 0 auto; }
 
 .hero__logo {
+  position: relative;
   width: 230px;
   height: 230px;
   margin: 0 auto 32px;
@@ -352,6 +353,17 @@ section { position: relative; padding: 120px 0; }
   padding: 5px;
   background: var(--gradient);
   box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.08), 0 20px 60px rgba(29, 78, 216, 0.4), 0 0 90px rgba(56, 189, 248, 0.28);
+}
+
+.hero__logo::before {
+  content: "";
+  position: absolute;
+  inset: -50px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(56, 189, 248, 0.3), rgba(29, 78, 216, 0.14) 55%, transparent 75%);
+  filter: blur(35px);
+  z-index: -1;
+  pointer-events: none;
 }
 
 .hero__logo img {
