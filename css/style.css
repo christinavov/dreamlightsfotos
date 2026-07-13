@@ -570,7 +570,9 @@ section { position: relative; padding: 16px 0 120px; }
 .gallery-item__ph {
   position: absolute;
   inset: 0;
-  transition: transform 0.5s ease;
+  background-size: cover;
+  background-position: center;
+  transition: transform 0.5s ease, opacity 0.5s ease;
 }
 
 .gallery-item:hover .gallery-item__ph { transform: scale(1.08); }
@@ -1165,6 +1167,56 @@ a.contact__item:hover .contact__item-icon {
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+.lightbox__nav {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: var(--gradient-soft);
+  border: 1px solid rgba(56, 189, 248, 0.45);
+  color: var(--text);
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
+}
+
+.lightbox__nav svg { width: 24px; height: 24px; }
+
+.lightbox__nav:hover {
+  border-color: var(--grad-2);
+  box-shadow: 0 0 24px rgba(56, 189, 248, 0.35);
+  transform: translateY(-50%) scale(1.08);
+}
+
+.lightbox__nav--prev { left: 24px; }
+.lightbox__nav--next { right: 24px; }
+
+.lightbox__counter {
+  position: absolute;
+  bottom: 24px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 13.5px;
+  color: var(--text-dim);
+  background: rgba(0, 0, 0, 0.4);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  padding: 6px 16px;
+}
+
+@media (max-width: 620px) {
+  .lightbox { padding: 24px; }
+  .lightbox__nav { width: 42px; height: 42px; }
+  .lightbox__nav svg { width: 20px; height: 20px; }
+  .lightbox__nav--prev { left: 8px; }
+  .lightbox__nav--next { right: 8px; }
 }
 
 /* ---------- Floating WhatsApp button ---------- */
