@@ -1,7 +1,11 @@
 document.getElementById("year").textContent = new Date().getFullYear();
 
 /* ---------- About photo rotation ---------- */
-const aboutPhotos = ["images/about-me/IMG_1588.JPG", "images/about-me/IMG_1589.JPG"];
+const aboutPhotos = [
+  "images/about-me/1780659172472.jpg",
+  "images/about-me/1780659173027.jpg",
+  "images/about-me/1780659173153.jpg",
+];
 const aboutPhotoEl = document.getElementById("aboutPhoto");
 let aboutPhotoIndex = 0;
 
@@ -20,7 +24,7 @@ if (aboutPhotoEl && aboutPhotos.length) {
     window.setInterval(() => {
       aboutPhotoIndex = (aboutPhotoIndex + 1) % aboutPhotos.length;
       showAboutPhoto(aboutPhotoIndex);
-    }, 20000);
+    }, 10000);
   }
 }
 
@@ -185,6 +189,8 @@ const translations = {
     "footer.rights": "Alle Rechte vorbehalten.",
     "footer.top": "Nach oben ↑",
     "lightbox.close": "Schließen",
+    "lightbox.prev": "Vorheriges Foto",
+    "lightbox.next": "Nächstes Foto",
     "whatsapp.fab": "Per WhatsApp schreiben",
     "instagram.fab": "Auf Instagram besuchen",
     "scrolltop.fab": "Nach oben scrollen",
@@ -348,6 +354,8 @@ const translations = {
     "footer.rights": "All rights reserved.",
     "footer.top": "Back to top ↑",
     "lightbox.close": "Close",
+    "lightbox.prev": "Previous photo",
+    "lightbox.next": "Next photo",
     "whatsapp.fab": "Message us on WhatsApp",
     "instagram.fab": "Visit us on Instagram",
     "scrolltop.fab": "Scroll to top",
@@ -517,6 +525,13 @@ const galleryCategories = [
 const gallery = document.getElementById("gallery");
 let activeGalleryFilter = "all";
 
+// category -> array of uploaded photo URLs (only set for categories with real photos)
+const categoryPhotos = {};
+// category -> index of the photo currently shown on the portfolio tile
+const categoryRotationIndex = {};
+// category -> the tile's .gallery-item__ph element, for rotating the photo in place
+const categoryTileEls = {};
+
 function makeGalleryItem(category, background, caption, titleKey) {
   const item = document.createElement("div");
   item.className = "gallery-item";
@@ -532,27 +547,31 @@ function makeGalleryItem(category, background, caption, titleKey) {
 function renderGallery(manifest) {
   gallery.innerHTML = "";
   let gradientIndex = 0;
+  Object.keys(categoryPhotos).forEach((key) => delete categoryPhotos[key]);
+  Object.keys(categoryRotationIndex).forEach((key) => delete categoryRotationIndex[key]);
+  Object.keys(categoryTileEls).forEach((key) => delete categoryTileEls[key]);
 
   galleryCategories.forEach((category) => {
     const uploaded = (manifest && manifest[category]) || [];
 
     if (uploaded.length) {
-      uploaded.forEach((src) => {
-        const bg = `background-image:url('${src}')`;
-        const item = makeGalleryItem(category, bg, t(`filter.${category}`));
-        item.addEventListener("click", () => openLightbox(`url('${src}') center/cover no-repeat`));
-        gallery.appendChild(item);
+      categoryPhotos[category] = uploaded;
+      categoryRotationIndex[category] = 0;
+      const bg = `background-image:url('${uploaded[0]}')`;
+      const item = makeGalleryItem(category, bg, t(`filter.${category}`));
+      categoryTileEls[category] = item.querySelector(".gallery-item__ph");
+      item.addEventListener("click", () => {
+        const items = categoryPhotos[category].map((src) => ({ type: "image", src }));
+        openLightbox(items, categoryRotationIndex[category]);
       });
+      gallery.appendChild(item);
     } else {
-      fallbackPhotos
-        .filter((p) => p.category === category)
-        .forEach((photo) => {
-          const gradient = gradients[gradientIndex % gradients.length];
-          gradientIndex++;
-          const item = makeGalleryItem(category, `background:${gradient}`, "", photo.titleKey);
-          item.addEventListener("click", () => openLightbox(gradient));
-          gallery.appendChild(item);
-        });
+      const photo = fallbackPhotos.find((p) => p.category === category);
+      const gradient = gradients[gradientIndex % gradients.length];
+      gradientIndex++;
+      const item = makeGalleryItem(category, `background:${gradient}`, "", photo && photo.titleKey);
+      item.addEventListener("click", () => openLightbox([{ type: "gradient", value: gradient }], 0));
+      gallery.appendChild(item);
     }
   });
 
@@ -566,6 +585,24 @@ function renderGallery(manifest) {
     observer.observe(el);
   });
 }
+
+// Rotate each category's portfolio tile to its next photo, with a soft crossfade.
+function rotateGalleryPhotos() {
+  Object.keys(categoryPhotos).forEach((category) => {
+    const photos = categoryPhotos[category];
+    const el = categoryTileEls[category];
+    if (!photos || photos.length < 2 || !el) return;
+    categoryRotationIndex[category] = (categoryRotationIndex[category] + 1) % photos.length;
+    const nextSrc = photos[categoryRotationIndex[category]];
+    el.style.opacity = "0";
+    window.setTimeout(() => {
+      el.style.backgroundImage = `url('${nextSrc}')`;
+      el.style.opacity = "1";
+    }, 400);
+  });
+}
+
+window.setInterval(rotateGalleryPhotos, 60000);
 
 function applyGalleryFilter(filter) {
   activeGalleryFilter = filter;
@@ -727,9 +764,28 @@ document.querySelectorAll("[data-service-type]").forEach((btn) => {
 const lightbox = document.getElementById("lightbox");
 const lightboxPhoto = document.getElementById("lightboxPhoto");
 const lightboxClose = document.getElementById("lightboxClose");
+const lightboxPrev = document.getElementById("lightboxPrev");
+const lightboxNext = document.getElementById("lightboxNext");
+const lightboxCounter = document.getElementById("lightboxCounter");
 
-function openLightbox(gradient) {
-  lightboxPhoto.style.background = gradient;
+let lightboxItems = [];
+let lightboxIndex = 0;
+
+function showLightboxSlide(index) {
+  lightboxIndex = (index + lightboxItems.length) % lightboxItems.length;
+  const item = lightboxItems[lightboxIndex];
+  lightboxPhoto.style.background =
+    item.type === "image" ? `url('${item.src}') center/cover no-repeat` : item.value;
+
+  const hasMultiple = lightboxItems.length > 1;
+  lightboxPrev.style.display = hasMultiple ? "flex" : "none";
+  lightboxNext.style.display = hasMultiple ? "flex" : "none";
+  lightboxCounter.textContent = hasMultiple ? `${lightboxIndex + 1} / ${lightboxItems.length}` : "";
+}
+
+function openLightbox(items, startIndex) {
+  lightboxItems = items;
+  showLightboxSlide(startIndex || 0);
   lightbox.classList.add("open");
   document.body.style.overflow = "hidden";
 }
@@ -743,8 +799,19 @@ lightboxClose.addEventListener("click", closeLightbox);
 lightbox.addEventListener("click", (e) => {
   if (e.target === lightbox) closeLightbox();
 });
+lightboxPrev.addEventListener("click", (e) => {
+  e.stopPropagation();
+  showLightboxSlide(lightboxIndex - 1);
+});
+lightboxNext.addEventListener("click", (e) => {
+  e.stopPropagation();
+  showLightboxSlide(lightboxIndex + 1);
+});
 document.addEventListener("keydown", (e) => {
+  if (!lightbox.classList.contains("open")) return;
   if (e.key === "Escape") closeLightbox();
+  if (e.key === "ArrowLeft") showLightboxSlide(lightboxIndex - 1);
+  if (e.key === "ArrowRight") showLightboxSlide(lightboxIndex + 1);
 });
 
 /* ---------- Booking date (earliest bookable: 5 days from today) ---------- */
