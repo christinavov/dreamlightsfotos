@@ -402,10 +402,7 @@ function applyLanguage(lang) {
     el.setAttribute("aria-label", t(el.dataset.i18nAria));
   });
 
-  document.querySelectorAll(".gallery-item").forEach((item) => {
-    const span = item.querySelector(".gallery-item__overlay span");
-    if (span) span.textContent = t(`gallery.${item.dataset.titleKey}`);
-  });
+  applyGalleryCaptions();
 
   const meta = languageMeta[lang];
   langBtnFlag.className = `lang-switch__flag ${meta.flagClass}`;
