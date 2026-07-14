@@ -763,6 +763,7 @@ document.querySelectorAll("[data-service-type]").forEach((btn) => {
 /* ---------- Lightbox ---------- */
 const lightbox = document.getElementById("lightbox");
 const lightboxPhoto = document.getElementById("lightboxPhoto");
+const lightboxImg = document.getElementById("lightboxImg");
 const lightboxClose = document.getElementById("lightboxClose");
 const lightboxPrev = document.getElementById("lightboxPrev");
 const lightboxNext = document.getElementById("lightboxNext");
@@ -774,8 +775,18 @@ let lightboxIndex = 0;
 function showLightboxSlide(index) {
   lightboxIndex = (index + lightboxItems.length) % lightboxItems.length;
   const item = lightboxItems[lightboxIndex];
-  lightboxPhoto.style.background =
-    item.type === "image" ? `url('${item.src}') center/cover no-repeat` : item.value;
+
+  if (item.type === "image") {
+    lightboxPhoto.classList.remove("lightbox__photo--gradient");
+    lightboxPhoto.style.background = "";
+    lightboxImg.style.display = "";
+    lightboxImg.src = item.src;
+  } else {
+    lightboxPhoto.classList.add("lightbox__photo--gradient");
+    lightboxImg.style.display = "none";
+    lightboxImg.src = "";
+    lightboxPhoto.style.background = item.value;
+  }
 
   const hasMultiple = lightboxItems.length > 1;
   lightboxPrev.style.display = hasMultiple ? "flex" : "none";

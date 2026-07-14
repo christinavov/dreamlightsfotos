@@ -571,8 +571,9 @@ section { position: relative; padding: 16px 0 120px; }
 .gallery-item__ph {
   position: absolute;
   inset: 0;
-  background-size: cover;
+  background-size: contain;
   background-position: center;
+  background-repeat: no-repeat;
   transition: transform 0.5s ease, opacity 0.5s ease;
 }
 
@@ -1148,8 +1149,26 @@ a.contact__item:hover .contact__item-icon {
 .lightbox.open { opacity: 1; pointer-events: auto; }
 
 .lightbox__photo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  max-width: 92vw;
+  max-height: 86vh;
+}
+
+.lightbox__photo--gradient {
   width: min(700px, 90vw);
   aspect-ratio: 4/5;
+  border-radius: var(--radius);
+}
+
+.lightbox__photo img {
+  display: block;
+  max-width: 92vw;
+  max-height: 86vh;
+  width: auto;
+  height: auto;
+  object-fit: contain;
   border-radius: var(--radius);
 }
 
