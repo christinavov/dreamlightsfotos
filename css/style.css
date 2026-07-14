@@ -559,14 +559,22 @@ section { position: relative; padding: 16px 0 120px; }
 
 .gallery-item {
   position: relative;
+  display: flex;
+  flex-direction: column;
   border-radius: var(--radius);
   overflow: hidden;
-  aspect-ratio: 1 / 1;
   cursor: pointer;
   background: #000;
+  border: 1px solid var(--border);
 }
 
 .gallery-item.hidden { display: none; }
+
+.gallery-item__frame {
+  position: relative;
+  aspect-ratio: 1 / 1;
+  overflow: hidden;
+}
 
 .gallery-item__ph {
   position: absolute;
@@ -579,23 +587,25 @@ section { position: relative; padding: 16px 0 120px; }
 
 .gallery-item:hover .gallery-item__ph { transform: scale(1.08); }
 
-.gallery-item__overlay {
-  position: absolute;
-  inset: 0;
-  display: flex;
-  align-items: flex-end;
-  padding: 20px;
-  background: linear-gradient(to top, rgba(0,0,0,0.75), transparent 60%);
-  opacity: 0;
-  transition: opacity 0.3s ease;
+.gallery-item__label {
+  padding: 14px 16px;
+  background: var(--gradient);
+  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.15) inset, 0 6px 20px rgba(29, 78, 216, 0.35);
+  text-align: center;
+  transition: box-shadow 0.3s ease;
 }
 
-.gallery-item:hover .gallery-item__overlay { opacity: 1; }
+.gallery-item:hover .gallery-item__label {
+  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.2) inset, 0 8px 28px rgba(56, 189, 248, 0.55);
+}
 
-.gallery-item__overlay span {
-  font-size: 14px;
-  font-weight: 600;
-  letter-spacing: 0.02em;
+.gallery-item__label span {
+  font-size: 13.5px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #fff;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.25);
 }
 
 /* ---------- Services ---------- */
