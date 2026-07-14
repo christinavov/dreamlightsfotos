@@ -563,7 +563,7 @@ section { position: relative; padding: 16px 0 120px; }
   overflow: hidden;
   aspect-ratio: 1 / 1;
   cursor: pointer;
-  background: var(--surface);
+  background: #000;
 }
 
 .gallery-item.hidden { display: none; }
