@@ -438,9 +438,10 @@ section { position: relative; padding: 16px 0 120px; }
   align-items: center;
 }
 
-.about__media { position: relative; }
+.about__media { position: relative; width: 100%; }
 
 .about__frame {
+  width: 100%;
   border-radius: var(--radius);
   padding: 2px;
   background: var(--gradient);
