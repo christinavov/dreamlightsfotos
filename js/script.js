@@ -602,7 +602,7 @@ function rotateGalleryPhotos() {
   });
 }
 
-window.setInterval(rotateGalleryPhotos, 60000);
+window.setInterval(rotateGalleryPhotos, 10000);
 
 function applyGalleryFilter(filter) {
   activeGalleryFilter = filter;
