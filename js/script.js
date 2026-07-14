@@ -186,6 +186,7 @@ const translations = {
     "form.confirmNote": "Die Buchung ist erst verbindlich, wenn ich sie persönlich per Telefon oder E-Mail bestätigt habe.",
     "form.submit": "Anfrage senden",
     "form.success": "Danke! WhatsApp öffnet sich mit deiner Anfrage — bitte dort auf Senden tippen, damit ich sie erhalte.",
+    "form.error": "Bitte füllen Sie alle rot markierten Pflichtfelder aus.",
     "footer.rights": "Alle Rechte vorbehalten.",
     "footer.top": "Nach oben ↑",
     "lightbox.close": "Schließen",
@@ -351,6 +352,7 @@ const translations = {
     "form.confirmNote": "Your booking becomes binding only once I've confirmed it with you personally by phone or email.",
     "form.submit": "Send request",
     "form.success": "Thanks! WhatsApp is opening with your request — please tap send there so I receive it.",
+    "form.error": "Please fill in all the required fields marked in red.",
     "footer.rights": "All rights reserved.",
     "footer.top": "Back to top ↑",
     "lightbox.close": "Close",
@@ -1075,8 +1077,35 @@ document.addEventListener("keydown", (e) => {
   }
 });
 
+const requiredFormFields = [form.name, form.phone, form.email, form.date];
+
+requiredFormFields.forEach((field) => {
+  field.addEventListener("input", () => field.classList.remove("field-error"));
+});
+
+function validateContactForm() {
+  let firstInvalid = null;
+  requiredFormFields.forEach((field) => {
+    const valid = field.value.trim() !== "" && field.checkValidity();
+    field.classList.toggle("field-error", !valid);
+    if (!valid && !firstInvalid) firstInvalid = field;
+  });
+  return firstInvalid;
+}
+
 form.addEventListener("submit", (e) => {
   e.preventDefault();
+
+  const firstInvalid = validateContactForm();
+  if (firstInvalid) {
+    formNote.textContent = t("form.error");
+    formNote.classList.remove("success");
+    formNote.classList.add("error");
+    firstInvalid.focus();
+    firstInvalid.scrollIntoView({ behavior: "smooth", block: "center" });
+    return;
+  }
+  formNote.classList.remove("error");
 
   const name = form.name.value.trim();
   const phone = `${form.phoneCountry.value} ${form.phone.value.trim()}`.trim();
