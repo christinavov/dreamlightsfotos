@@ -684,12 +684,12 @@ function rotateGalleryPhotos() {
       }
       el.style.backgroundImage = `url('${nextSrc}')`;
       el.style.opacity = "1";
-    }, 400);
+    }, 700);
     break;
   }
 }
 
-window.setInterval(rotateGalleryPhotos, 20000);
+window.setInterval(rotateGalleryPhotos, 10000);
 
 function applyGalleryFilter(filter) {
   activeGalleryFilter = filter;
