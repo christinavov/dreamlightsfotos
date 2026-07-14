@@ -544,19 +544,39 @@ function makeGalleryItem(category, background, caption, titleKey) {
   return item;
 }
 
-function renderGallery(manifest) {
-  gallery.innerHTML = "";
-  let gradientIndex = 0;
+let galleryManifest = null;
+
+function loadCategoryPhotos(manifest) {
   Object.keys(categoryPhotos).forEach((key) => delete categoryPhotos[key]);
   Object.keys(categoryRotationIndex).forEach((key) => delete categoryRotationIndex[key]);
-  Object.keys(categoryTileEls).forEach((key) => delete categoryTileEls[key]);
-
   galleryCategories.forEach((category) => {
     const uploaded = (manifest && manifest[category]) || [];
-
     if (uploaded.length) {
       categoryPhotos[category] = uploaded;
       categoryRotationIndex[category] = 0;
+    }
+  });
+}
+
+function animateGalleryItemsIn() {
+  gallery.querySelectorAll(".gallery-item").forEach((el) => {
+    el.style.opacity = "0";
+    el.style.transform = "translateY(24px)";
+    el.style.transition = "opacity 0.6s ease, transform 0.6s ease";
+    observer.observe(el);
+  });
+}
+
+// "All" view: one rotating tile per category.
+function renderAllView() {
+  gallery.innerHTML = "";
+  let gradientIndex = 0;
+  Object.keys(categoryTileEls).forEach((key) => delete categoryTileEls[key]);
+
+  galleryCategories.forEach((category) => {
+    const uploaded = categoryPhotos[category];
+
+    if (uploaded && uploaded.length) {
       const bg = `background-image:url('${uploaded[0]}')`;
       const item = makeGalleryItem(category, bg, t(`filter.${category}`));
       categoryTileEls[category] = item.querySelector(".gallery-item__ph");
@@ -576,18 +596,54 @@ function renderGallery(manifest) {
   });
 
   applyGalleryCaptions();
-  applyGalleryFilter(activeGalleryFilter);
+  animateGalleryItemsIn();
+}
 
-  gallery.querySelectorAll(".gallery-item").forEach((el) => {
-    el.style.opacity = "0";
-    el.style.transform = "translateY(24px)";
-    el.style.transition = "opacity 0.6s ease, transform 0.6s ease";
-    observer.observe(el);
+// Category view: every photo in the category, as its own tile in a 3-column grid.
+function renderCategoryView(category) {
+  gallery.innerHTML = "";
+  Object.keys(categoryTileEls).forEach((key) => delete categoryTileEls[key]);
+
+  const photos = categoryPhotos[category] || [];
+
+  if (!photos.length) {
+    const photo = fallbackPhotos.find((p) => p.category === category);
+    const gradient = gradients[0];
+    const item = makeGalleryItem(category, `background:${gradient}`, "", photo && photo.titleKey);
+    item.addEventListener("click", () => openLightbox([{ type: "gradient", value: gradient }], 0));
+    gallery.appendChild(item);
+    applyGalleryCaptions();
+    animateGalleryItemsIn();
+    return;
+  }
+
+  photos.forEach((src, index) => {
+    const bg = `background-image:url('${src}')`;
+    const item = makeGalleryItem(category, bg, "");
+    item.addEventListener("click", () => {
+      const items = photos.map((s) => ({ type: "image", src: s }));
+      openLightbox(items, index);
+    });
+    gallery.appendChild(item);
   });
+
+  animateGalleryItemsIn();
+}
+
+function renderGallery(manifest) {
+  galleryManifest = manifest;
+  loadCategoryPhotos(manifest);
+  if (activeGalleryFilter === "all") {
+    renderAllView();
+  } else {
+    renderCategoryView(activeGalleryFilter);
+  }
 }
 
 // Rotate each category's portfolio tile to its next photo, with a soft crossfade.
+// Only runs in the "all" view — the category grid shows every photo at once, nothing to rotate.
 function rotateGalleryPhotos() {
+  if (activeGalleryFilter !== "all") return;
   Object.keys(categoryPhotos).forEach((category) => {
     const photos = categoryPhotos[category];
     const el = categoryTileEls[category];
@@ -606,10 +662,11 @@ window.setInterval(rotateGalleryPhotos, 10000);
 
 function applyGalleryFilter(filter) {
   activeGalleryFilter = filter;
-  gallery.querySelectorAll(".gallery-item").forEach((item) => {
-    const match = filter === "all" || item.dataset.category === filter;
-    item.classList.toggle("hidden", !match);
-  });
+  if (filter === "all") {
+    renderAllView();
+  } else {
+    renderCategoryView(filter);
+  }
 }
 
 function applyGalleryCaptions() {
