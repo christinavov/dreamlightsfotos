@@ -640,14 +640,21 @@ function renderGallery(manifest) {
   }
 }
 
-// Rotate each category's portfolio tile to its next photo, with a soft crossfade.
+// Rotate one category's portfolio tile at a time, in turn, with a soft crossfade.
 // Only runs in the "all" view — the category grid shows every photo at once, nothing to rotate.
+let rotationCategoryPointer = 0;
+
 function rotateGalleryPhotos() {
   if (activeGalleryFilter !== "all") return;
-  Object.keys(categoryPhotos).forEach((category) => {
+
+  for (let i = 0; i < galleryCategories.length; i++) {
+    const category = galleryCategories[rotationCategoryPointer % galleryCategories.length];
+    rotationCategoryPointer++;
+
     const photos = categoryPhotos[category];
     const el = categoryTileEls[category];
-    if (!photos || photos.length < 2 || !el) return;
+    if (!photos || photos.length < 2 || !el) continue;
+
     categoryRotationIndex[category] = (categoryRotationIndex[category] + 1) % photos.length;
     const nextSrc = photos[categoryRotationIndex[category]];
     el.style.opacity = "0";
@@ -655,10 +662,11 @@ function rotateGalleryPhotos() {
       el.style.backgroundImage = `url('${nextSrc}')`;
       el.style.opacity = "1";
     }, 400);
-  });
+    break;
+  }
 }
 
-window.setInterval(rotateGalleryPhotos, 10000);
+window.setInterval(rotateGalleryPhotos, 20000);
 
 function applyGalleryFilter(filter) {
   activeGalleryFilter = filter;
