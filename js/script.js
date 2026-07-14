@@ -860,18 +860,28 @@ const lightboxCounter = document.getElementById("lightboxCounter");
 
 let lightboxItems = [];
 let lightboxIndex = 0;
+let lightboxLoadToken = 0;
 
+// Each call invalidates any photo still loading from a previous, now-stale
+// navigation, so a lagging image can't flash onto screen after the counter
+// has already moved past it.
 function showLightboxSlide(index) {
   lightboxIndex = (index + lightboxItems.length) % lightboxItems.length;
   const item = lightboxItems[lightboxIndex];
+  const token = ++lightboxLoadToken;
 
   if (item.type === "image") {
     lightboxPhoto.classList.remove("lightbox__photo--gradient");
     lightboxPhoto.style.background = "";
     lightboxImg.style.display = "";
+    lightboxImg.classList.remove("loaded");
+    lightboxImg.onload = () => {
+      if (token === lightboxLoadToken) lightboxImg.classList.add("loaded");
+    };
     lightboxImg.src = item.src;
   } else {
     lightboxPhoto.classList.add("lightbox__photo--gradient");
+    lightboxImg.classList.remove("loaded");
     lightboxImg.style.display = "none";
     lightboxImg.src = "";
     lightboxPhoto.style.background = item.value;
