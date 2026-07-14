@@ -554,9 +554,13 @@ function makeGalleryItem(category, opts, caption, titleKey) {
   item.dataset.category = category;
   if (titleKey) item.dataset.titleKey = titleKey;
   const phAttr = opts.lazySrc ? `data-src="${opts.lazySrc}"` : `style="${opts.style}"`;
+  const hasLabel = Boolean(caption) || Boolean(titleKey);
+  const label = hasLabel ? `<div class="gallery-item__label"><span>${caption || ""}</span></div>` : "";
   item.innerHTML = `
-    <div class="gallery-item__ph" ${phAttr}></div>
-    <div class="gallery-item__overlay"><span>${caption || ""}</span></div>
+    <div class="gallery-item__frame">
+      <div class="gallery-item__ph" ${phAttr}></div>
+    </div>
+    ${label}
   `;
   if (opts.lazySrc) galleryPhotoObserver.observe(item.querySelector(".gallery-item__ph"));
   return item;
@@ -699,7 +703,7 @@ function applyGalleryFilter(filter) {
 
 function applyGalleryCaptions() {
   gallery.querySelectorAll(".gallery-item").forEach((item) => {
-    const span = item.querySelector(".gallery-item__overlay span");
+    const span = item.querySelector(".gallery-item__label span");
     if (!span) return;
     span.textContent = item.dataset.titleKey
       ? t(`gallery.${item.dataset.titleKey}`)
