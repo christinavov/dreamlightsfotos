@@ -534,15 +534,34 @@ const categoryRotationIndex = {};
 // category -> the tile's .gallery-item__ph element, for rotating the photo in place
 const categoryTileEls = {};
 
-function makeGalleryItem(category, background, caption, titleKey) {
+// Only start downloading a tile's photo once it's about to scroll into view,
+// so opening a category with dozens of photos doesn't fetch them all at once.
+const galleryPhotoObserver = new IntersectionObserver(
+  (entries) => {
+    entries.forEach((entry) => {
+      if (!entry.isIntersecting) return;
+      const ph = entry.target;
+      galleryPhotoObserver.unobserve(ph);
+      if (ph.dataset.src) {
+        ph.style.backgroundImage = `url('${ph.dataset.src}')`;
+        delete ph.dataset.src;
+      }
+    });
+  },
+  { rootMargin: "400px 0px" }
+);
+
+function makeGalleryItem(category, opts, caption, titleKey) {
   const item = document.createElement("div");
   item.className = "gallery-item";
   item.dataset.category = category;
   if (titleKey) item.dataset.titleKey = titleKey;
+  const phAttr = opts.lazySrc ? `data-src="${opts.lazySrc}"` : `style="${opts.style}"`;
   item.innerHTML = `
-    <div class="gallery-item__ph" style="${background}"></div>
+    <div class="gallery-item__ph" ${phAttr}></div>
     <div class="gallery-item__overlay"><span>${caption || ""}</span></div>
   `;
+  if (opts.lazySrc) galleryPhotoObserver.observe(item.querySelector(".gallery-item__ph"));
   return item;
 }
 
@@ -579,8 +598,7 @@ function renderAllView() {
     const uploaded = categoryPhotos[category];
 
     if (uploaded && uploaded.length) {
-      const bg = `background-image:url('${uploaded[0]}')`;
-      const item = makeGalleryItem(category, bg, t(`filter.${category}`));
+      const item = makeGalleryItem(category, { lazySrc: uploaded[0] }, t(`filter.${category}`));
       categoryTileEls[category] = item.querySelector(".gallery-item__ph");
       item.addEventListener("click", () => {
         const items = categoryPhotos[category].map((src) => ({ type: "image", src }));
@@ -591,7 +609,7 @@ function renderAllView() {
       const photo = fallbackPhotos.find((p) => p.category === category);
       const gradient = gradients[gradientIndex % gradients.length];
       gradientIndex++;
-      const item = makeGalleryItem(category, `background:${gradient}`, "", photo && photo.titleKey);
+      const item = makeGalleryItem(category, { style: `background:${gradient}` }, "", photo && photo.titleKey);
       item.addEventListener("click", () => openLightbox([{ type: "gradient", value: gradient }], 0));
       gallery.appendChild(item);
     }
@@ -611,7 +629,7 @@ function renderCategoryView(category) {
   if (!photos.length) {
     const photo = fallbackPhotos.find((p) => p.category === category);
     const gradient = gradients[0];
-    const item = makeGalleryItem(category, `background:${gradient}`, "", photo && photo.titleKey);
+    const item = makeGalleryItem(category, { style: `background:${gradient}` }, "", photo && photo.titleKey);
     item.addEventListener("click", () => openLightbox([{ type: "gradient", value: gradient }], 0));
     gallery.appendChild(item);
     applyGalleryCaptions();
@@ -620,8 +638,7 @@ function renderCategoryView(category) {
   }
 
   photos.forEach((src, index) => {
-    const bg = `background-image:url('${src}')`;
-    const item = makeGalleryItem(category, bg, "");
+    const item = makeGalleryItem(category, { lazySrc: src }, "");
     item.addEventListener("click", () => {
       const items = photos.map((s) => ({ type: "image", src: s }));
       openLightbox(items, index);
@@ -661,6 +678,10 @@ function rotateGalleryPhotos() {
     const nextSrc = photos[categoryRotationIndex[category]];
     el.style.opacity = "0";
     window.setTimeout(() => {
+      if (el.dataset.src) {
+        galleryPhotoObserver.unobserve(el);
+        delete el.dataset.src;
+      }
       el.style.backgroundImage = `url('${nextSrc}')`;
       el.style.opacity = "1";
     }, 400);
