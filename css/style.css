@@ -589,14 +589,7 @@ section { position: relative; padding: 16px 0 120px; }
 
 .gallery-item__label {
   padding: 13px 16px;
-  background: var(--surface);
-  border-top: 1px solid rgba(56, 189, 248, 0.25);
   text-align: center;
-  transition: border-color 0.3s ease;
-}
-
-.gallery-item:hover .gallery-item__label {
-  border-top-color: rgba(56, 189, 248, 0.55);
 }
 
 .gallery-item__label span {
