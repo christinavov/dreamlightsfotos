@@ -12,6 +12,7 @@
 - `landscape/` — Landschaft & Natur
 - `maternity/` — Schwangerschaft
 - `business/` — Business
+- `sport/` — Sport
 
 ## Как добавить фото
 

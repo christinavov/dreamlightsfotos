@@ -72,6 +72,7 @@ const translations = {
     "filter.event": "Events",
     "filter.maternity": "Schwangerschaft",
     "filter.business": "Business",
+    "filter.sport": "Sport",
     "gallery.portrait1": "Porträt · Studio",
     "gallery.portrait2": "Porträt · Straße",
     "gallery.love1": "Love Story · Sonnenuntergang",
@@ -82,6 +83,7 @@ const translations = {
     "gallery.event1": "Event · Firmenfeier",
     "gallery.maternity1": "Schwangerschaft · Porträt",
     "gallery.business1": "Business · Porträt",
+    "gallery.sport1": "Sport · Action",
     "services.eyebrow": "Preise",
     "services.title": "Preise & Pakete",
     "services.noteLabel": "Hinweis:",
@@ -180,6 +182,7 @@ const translations = {
     "form.type8": "Art",
     "form.type10": "Schwangerschaft",
     "form.type11": "Business",
+    "form.type12": "Sport",
     "form.message": "Nachricht",
     "form.messagePh": "Erzählen Sie kurz von Ihrem Shooting...",
     "form.confirmLabel": "Wichtig:",
@@ -238,6 +241,7 @@ const translations = {
     "filter.event": "Events",
     "filter.maternity": "Maternity",
     "filter.business": "Business",
+    "filter.sport": "Sport",
     "gallery.portrait1": "Portrait · Studio",
     "gallery.portrait2": "Portrait · Street",
     "gallery.love1": "Love Story · Sunset",
@@ -248,6 +252,7 @@ const translations = {
     "gallery.event1": "Event · Corporate",
     "gallery.maternity1": "Maternity · Portrait",
     "gallery.business1": "Business · Portrait",
+    "gallery.sport1": "Sport · Action",
     "services.eyebrow": "Price",
     "services.title": "Price & Packages",
     "services.noteLabel": "Please note:",
@@ -346,6 +351,7 @@ const translations = {
     "form.type8": "Art",
     "form.type10": "Maternity",
     "form.type11": "Business",
+    "form.type12": "Sport",
     "form.message": "Message",
     "form.messagePh": "Tell me a bit about your shoot...",
     "form.confirmLabel": "Important:",
@@ -513,12 +519,13 @@ const fallbackPhotos = [
   { category: "event", titleKey: "event1" },
   { category: "maternity", titleKey: "maternity1" },
   { category: "business", titleKey: "business1" },
+  { category: "sport", titleKey: "sport1" },
   { category: "portrait", titleKey: "portrait2" },
 ];
 
 const galleryCategories = [
   "portrait", "love", "family", "fashion", "art",
-  "wedding", "event", "maternity", "business",
+  "wedding", "event", "maternity", "business", "sport",
 ];
 
 const gallery = document.getElementById("gallery");
