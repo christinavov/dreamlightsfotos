@@ -6,6 +6,9 @@ on:
       - "images/portfolio/**"
       - "images/testimonials/**"
   workflow_dispatch:
+  schedule:
+    # Reshuffle the portfolio photo order roughly every 5 days.
+    - cron: "0 3 */5 * *"
 
 permissions:
   contents: write
@@ -29,13 +32,25 @@ jobs:
           const exts = new Set([".jpg", ".jpeg", ".png", ".webp"]);
           const manifest = {};
 
+          // Fisher-Yates shuffle so the display order isn't just camera/upload order.
+          // Re-run on every push to images/portfolio/** and on a 5-day schedule (see cron below),
+          // so the order keeps changing over time.
+          function shuffle(arr) {
+            for (let i = arr.length - 1; i > 0; i--) {
+              const j = Math.floor(Math.random() * (i + 1));
+              [arr[i], arr[j]] = [arr[j], arr[i]];
+            }
+            return arr;
+          }
+
           for (const entry of fs.readdirSync(base, { withFileTypes: true })) {
             if (!entry.isDirectory()) continue;
             const dir = path.join(base, entry.name);
-            const files = fs
-              .readdirSync(dir)
-              .filter((f) => exts.has(path.extname(f).toLowerCase()))
-              .sort();
+            const files = shuffle(
+              fs
+                .readdirSync(dir)
+                .filter((f) => exts.has(path.extname(f).toLowerCase()))
+            );
             manifest[entry.name] = files.map((f) => `${base}/${entry.name}/${f}`);
           }
 
