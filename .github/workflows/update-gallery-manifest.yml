@@ -7,8 +7,8 @@ on:
       - "images/testimonials/**"
   workflow_dispatch:
   schedule:
-    # Reshuffle the portfolio photo order roughly every 5 days.
-    - cron: "0 3 */5 * *"
+    # Reshuffle the portfolio photo order once a day.
+    - cron: "0 3 * * *"
 
 permissions:
   contents: write
