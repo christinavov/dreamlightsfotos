@@ -57,6 +57,7 @@ const translations = {
     "about.desc2": "Deshalb liebe ich es, mit verschiedenen Stilen zu experimentieren, Licht bewusst einzusetzen und durch kreative Effekte das gewisse Etwas in meine Aufnahmen zu bringen.",
     "about.desc3": "Als Mensch bin ich offen, humorvoll und immer für ein Gespräch zu haben. Bei meinen Shootings ist mir eine lockere und entspannte Atmosphäre besonders wichtig, damit wir gemeinsam die besten Ergebnisse erzielen können. Ich freue mich darauf, deine Momente einzufangen!",
     "about.badgeLabel": "Jahre Erfahrung",
+    "about.photoAlt": "Djamel, Fotograf bei Dream Lights Photos",
     "about.stat1Label": "Shootings",
     "about.stat3Label": "Zufriedene Kunden",
     "about.cta": "Shooting besprechen",
@@ -148,6 +149,7 @@ const translations = {
     "cta.select": "Auswählen",
     "testimonials.eyebrow": "Referenzen",
     "testimonials.title": "Was Kunden sagen",
+    "testimonials.shotAlt": "Kundenbewertung für Dream Lights Photos",
     "reviewForm.heading": "Hinterlasse eine Bewertung",
     "reviewForm.note": "Deine Bewertung wird geprüft und danach auf der Website veröffentlicht.",
     "reviewForm.name": "Name",
@@ -223,6 +225,7 @@ const translations = {
     "about.desc2": "That's why I love experimenting with different styles, using light deliberately, and adding that certain something to my shots through creative effects.",
     "about.desc3": "As a person, I'm open, easygoing, and always up for a chat. During shoots, a relaxed, laid-back atmosphere matters a lot to me, so that together we can get the best results. I can't wait to capture your moments!",
     "about.badgeLabel": "Years of experience",
+    "about.photoAlt": "Djamel, photographer at Dream Lights Photos",
     "about.stat1Label": "Shoots",
     "about.stat3Label": "Happy clients",
     "about.cta": "Discuss a shoot",
@@ -314,6 +317,7 @@ const translations = {
     "cta.select": "Choose",
     "testimonials.eyebrow": "Reviews",
     "testimonials.title": "What clients say",
+    "testimonials.shotAlt": "Customer review for Dream Lights Photos",
     "reviewForm.heading": "Leave a review",
     "reviewForm.note": "Your review will be checked and then published on the website.",
     "reviewForm.name": "Name",
@@ -553,7 +557,9 @@ function makeGalleryItem(category, opts, caption, titleKey) {
   item.className = "gallery-item";
   item.dataset.category = category;
   if (titleKey) item.dataset.titleKey = titleKey;
-  const phAttr = opts.lazySrc ? `data-src="${opts.lazySrc}"` : `style="${opts.style}"`;
+  const phAttr = opts.lazySrc
+    ? `data-src="${opts.lazySrc}" role="img" aria-label="${t(`filter.${category}`)} – Dream Lights Photos"`
+    : `style="${opts.style}"`;
   const hasLabel = Boolean(caption) || Boolean(titleKey);
   const label = hasLabel ? `<div class="gallery-item__label"><span>${caption || ""}</span></div>` : "";
   item.innerHTML = `
@@ -602,7 +608,7 @@ function renderAllView() {
       const item = makeGalleryItem(category, { lazySrc: uploaded[0] }, t(`filter.${category}`));
       categoryTileEls[category] = item.querySelector(".gallery-item__ph");
       item.addEventListener("click", () => {
-        const items = categoryPhotos[category].map((src) => ({ type: "image", src }));
+        const items = categoryPhotos[category].map((src) => ({ type: "image", src, category }));
         openLightbox(items, categoryRotationIndex[category]);
       });
       gallery.appendChild(item);
@@ -641,7 +647,7 @@ function renderCategoryView(category) {
   photos.forEach((src, index) => {
     const item = makeGalleryItem(category, { lazySrc: src }, "");
     item.addEventListener("click", () => {
-      const items = photos.map((s) => ({ type: "image", src: s }));
+      const items = photos.map((s) => ({ type: "image", src: s, category }));
       openLightbox(items, index);
     });
     gallery.appendChild(item);
@@ -729,7 +735,7 @@ fetch("images/testimonials/manifest.json")
     shots.forEach((src) => {
       const item = document.createElement("div");
       item.className = "testimonial-shot";
-      item.innerHTML = `<img src="${src}" alt="" loading="lazy" />`;
+      item.innerHTML = `<img src="${src}" alt="${t("testimonials.shotAlt")}" loading="lazy" />`;
       item.style.opacity = "0";
       item.style.transform = "translateY(24px)";
       item.style.transition = "opacity 0.6s ease, transform 0.6s ease";
@@ -878,6 +884,9 @@ function showLightboxSlide(index) {
     lightboxImg.onload = () => {
       if (token === lightboxLoadToken) lightboxImg.classList.add("loaded");
     };
+    lightboxImg.alt = item.category
+      ? `${t(`filter.${item.category}`)} – Dream Lights Photos`
+      : "Dream Lights Photos";
     lightboxImg.src = item.src;
   } else {
     lightboxPhoto.classList.add("lightbox__photo--gradient");
