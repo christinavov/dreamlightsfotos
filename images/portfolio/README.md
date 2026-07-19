@@ -2,15 +2,14 @@
 
 В каждой папке — одна категория съёмок из раздела "Портфолио" на сайте:
 
-- `portrait/` — Порträts
+- `portrait/` — Porträts
 - `love/` — Love Story
 - `family/` — Familie
 - `fashion/` — Fashion
 - `art/` — Art
 - `wedding/` — Hochzeiten
 - `event/` — Events
-- `landscape/` — Landschaft & Natur
-- `maternity/` — Schwangerschaft
+- `maternity/` — Baby Bauch
 - `business/` — Business
 
 ## Как добавить фото
