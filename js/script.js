@@ -11,11 +11,13 @@ let aboutPhotoIndex = 0;
 
 function showAboutPhoto(index) {
   aboutPhotoEl.classList.remove("loaded");
+  // Wait for the 0.6s CSS fade-out (see .about__photo img transition) to fully
+  // finish before swapping src, so the new photo can't flash in mid-fade.
   window.setTimeout(() => {
     aboutPhotoEl.style.display = "";
     aboutPhotoEl.src = aboutPhotos[index];
     aboutPhotoEl.onload = () => aboutPhotoEl.classList.add("loaded");
-  }, 400);
+  }, 600);
 }
 
 if (aboutPhotoEl && aboutPhotos.length) {
@@ -557,22 +559,34 @@ function makeGalleryItem(category, opts, caption, titleKey) {
   item.className = "gallery-item";
   item.dataset.category = category;
   if (titleKey) item.dataset.titleKey = titleKey;
-  const phAttr = opts.lazySrc
-    ? `data-src="${opts.lazySrc}" role="img" aria-label="${t(`filter.${category}`)} – Dream Lights Photos"`
-    : `style="${opts.style}"`;
+
+  const frame = document.createElement("div");
+  frame.className = "gallery-item__frame";
+  const ph = document.createElement("div");
+  ph.className = "gallery-item__ph";
+  if (opts.lazySrc) {
+    ph.dataset.src = opts.lazySrc;
+    ph.setAttribute("role", "img");
+    ph.setAttribute("aria-label", `${t(`filter.${category}`)} – Dream Lights Photos`);
+  } else {
+    ph.style.cssText = opts.style;
+  }
+  frame.appendChild(ph);
+  item.appendChild(frame);
+
   const hasLabel = Boolean(caption) || Boolean(titleKey);
-  const label = hasLabel ? `<div class="gallery-item__label"><span>${caption || ""}</span></div>` : "";
-  item.innerHTML = `
-    <div class="gallery-item__frame">
-      <div class="gallery-item__ph" ${phAttr}></div>
-    </div>
-    ${label}
-  `;
-  if (opts.lazySrc) galleryPhotoObserver.observe(item.querySelector(".gallery-item__ph"));
+  if (hasLabel) {
+    const label = document.createElement("div");
+    label.className = "gallery-item__label";
+    const span = document.createElement("span");
+    span.textContent = caption || "";
+    label.appendChild(span);
+    item.appendChild(label);
+  }
+
+  if (opts.lazySrc) galleryPhotoObserver.observe(ph);
   return item;
 }
-
-let galleryManifest = null;
 
 function loadCategoryPhotos(manifest) {
   Object.keys(categoryPhotos).forEach((key) => delete categoryPhotos[key]);
@@ -657,7 +671,6 @@ function renderCategoryView(category) {
 }
 
 function renderGallery(manifest) {
-  galleryManifest = manifest;
   loadCategoryPhotos(manifest);
   if (activeGalleryFilter === "all") {
     renderAllView();
@@ -1152,7 +1165,7 @@ form.addEventListener("submit", (e) => {
   const phone = `${form.phoneCountry.value} ${form.phone.value.trim()}`.trim();
   const email = form.email.value.trim();
   const date = form.date.value;
-  const [year, month, day] = date.split("-").map(Number);
+  const [year, month, day] = date.split("-");
   const formattedDate = `${day}.${month}.${year}`;
   const typeLabel = typeSelectLabel.textContent;
   const message = form.message.value.trim();
@@ -1185,7 +1198,7 @@ form.addEventListener("submit", (e) => {
 
 /* ---------- Reveal on scroll ---------- */
 const revealTargets = document.querySelectorAll(
-  ".about__inner, .service-card, .testimonial-card, .contact__inner"
+  ".about__inner, .service-card, .contact__inner"
 );
 
 revealTargets.forEach((el) => {

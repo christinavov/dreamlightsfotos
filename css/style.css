@@ -9,7 +9,6 @@
   --text-dim: #98a1b0;
   --grad-1: #1d4ed8;
   --grad-2: #38bdf8;
-  --grad-3: #0c4a6e;
   --gradient: linear-gradient(135deg, var(--grad-1), var(--grad-2));
   --gradient-soft: linear-gradient(135deg, rgba(29, 78, 216, 0.22), rgba(56, 189, 248, 0.18));
   --radius: 18px;
